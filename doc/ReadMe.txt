@@ -1,4 +1,4 @@
-WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式类似于维基百科。
+﻿WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式类似于维基百科。
 
 模式：BS(Brower Server)
 前端：HTML+CSS3+JavaScript/JQuery
@@ -38,7 +38,7 @@ WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式
 	b.manager:mID, password
 
 2.笔记
-	a.note 	: nID, typeID(b.type), title, founderID, createTime, replaceTime, filepath
+	a.note 	: nID, typeID(b.type), title, createrID, createTime, replaceTime, filepath
 	g.author: nId, uID
 	
 
