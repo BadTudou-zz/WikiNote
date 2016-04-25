@@ -82,37 +82,15 @@ class MYSQL
 	}
 
 	/**
-	 * [初始化数据库]
+	 * [执行查询]
+	 * @param  string $sql [SQL语句]
+	 * @return [bool]      [执行状态：true,成功; false,失败]
 	 */
-	public function initDatabase()
+	public function executeQuery(string $sql)
 	{
-		if ($this->selectDatabase('WikiNote'))
-		{
-			echo '切换成功';
-		}
-		//创建用户表
-		$sqlcmd = 'CREATE TABLE user 
-		(
-			uID INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY, 
-			nickname VARCHAR(128) NOT NULL,
-			pwd CHAR(128) NOT NULL
-		)';
-		mysqli_query($this->m_resource, $sqlcmd);
-
-		//创建笔记表
-		$sqlcmd = 'CREATE TABLE note
-		(
-			nID INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-			notetypeID INTEGER UNSIGNED NOT NULL,
-			title VARCHAR(128) NOT NULL,
-			creatorID INTEGER UNSIGNED NOT NULL,
-			createTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			modifyTime  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			filepath VARCHAR(128) NOT NULL
-		)';
-
-		mysqli_query($this->m_resource, $sqlcmd);
+		return mysqli_query($this->m_resource, $sql);
 	}
+	
 }
 
 //TEST
@@ -127,7 +105,6 @@ if ($my->getConnectState())
 		if ($my->createDatabase('WikiNote'));
 		{
 			echo '创建成功';
-			$my->initDatabase();
 
 		}
 		if ($my->dropDatabase('dd'))
@@ -140,4 +117,4 @@ else
 {
 	echo '连接失败';
 }
-?>
+

@@ -1,4 +1,3 @@
-﻿Taotao Jiang, Xiaoyue Zhang, Xiaodou Du. Our little app
 WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式类似于维基百科。
 
 模式：BS(Brower Server)
@@ -35,11 +34,11 @@ WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式
 4.系统
 二.数据设计
 1.用户
-	a.user	：uID, password, nickname
+	a.user	：uID, pwd, nickname
 	b.manager:mID, password
 
 2.笔记
-	a.note 	: nID, typeID(b.type), title, createrID, createTime, replaceTime, filepath
+	a.note 	: nID, notetypeID(b.type), title, creatorID, createTime, modifyTime, filepath
 	g.author: nId, uID
 	
 
