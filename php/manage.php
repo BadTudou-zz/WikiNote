@@ -52,12 +52,37 @@
 
 		/**
 		 * [添加用户]
-		 * @param string $password [密码]
 		 * @param string $nickname [昵称]
+		 * @param string $password [密码]
 		 */
-		public function addUser(string $nickname, string $password)
+		public function addUser(string $nickname, string $pwd)
 		{
-			$sqlcmd = 'INSERT INTO user (nickname, pwd) values (\''. $nickname .'\', \''. $password .'\')';
+			$sqlcmd = 'INSERT INTO user (nickname, pwd) values (\''. $nickname .'\', \''. $pwd .'\')';
+			return $this->m_database->executeQuery($sqlcmd);
+		}
+
+		/**
+		 * [删除用户]
+		 * @param string $nickname [昵称]
+		 * @param string $password [密码]
+		 * @return [bool]           [description]
+		 */
+		public function delUser(string $nickname, string $pwd)
+		{
+			$sqlcmd = 'DELETE FROM user WHERE  nickname = \''. $nickname .'\' AND pwd = \''. $pwd .'\'';
+			return $this->m_database->executeQuery($sqlcmd);
+		}
+
+		/**
+		 * [更改用户密码]
+		 * @param  string $nickname [昵称]
+		 * @param  string $pwdOld   [原密码]
+		 * @param  string $pwdNew   [新密码]
+		 * @return [type]           [description]
+		 */
+		public function changeUserPWD(string $nickname, string $pwdOld, string $pwdNew)
+		{
+			$sqlcmd = 'UPDATE user SET pwd = \''. $pwdNew .'\' WHERE nickname = \''. $nickname .'\' AND pwd = \''. $pwdOld .'\'';
 			return $this->m_database->executeQuery($sqlcmd);
 		}
 	}
@@ -75,8 +100,9 @@
 			{
 				echo '创建成功';
 				$my->initDatabase('WikiNote');
-				$my->addUser('user1', 'pwd1');
-				$my->addUser('user2', 'pwd2');
+				/*$my->addUser('user1', 'pwd1');
+				$my->addUser('user2', 'pwd2');*/
+				$my->changeUserPWD('pwd2', 'user2', 'newpwd');
 	
 			}
 			if ($my->m_database->dropDatabase('dd'))
