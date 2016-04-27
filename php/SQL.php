@@ -93,7 +93,7 @@ class MYSQL
 	
 }
 
-//TEST
+/*//TEST
 $my = new MYSQL('localhost', '3306', 'root', '123qwe');
 $my->connect();
 if ($my->getConnectState())
@@ -117,4 +117,4 @@ else
 {
 	echo '连接失败';
 }
-
+*/

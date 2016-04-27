@@ -55,7 +55,7 @@
 		 * @param string $password [密码]
 		 * @param string $nickname [昵称]
 		 */
-		public function addUser(string $password, string $nickname)
+		public function addUser(string $nickname, string $password)
 		{
 			$sqlcmd = 'INSERT INTO user (nickname, pwd) values (\''. $nickname .'\', \''. $password .'\')';
 			return $this->m_database->executeQuery($sqlcmd);
