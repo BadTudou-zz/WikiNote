@@ -1,0 +1,79 @@
+/*
+		Copyright © BadTudou, 2016
+		All rights reserved
+	
+		Name	:	index-style.css
+		By		:	BadTudu
+		Date	:	2016年4月28日19:57:05
+		Note	:	网站主页样式表
+	*/
+body
+{
+	/*w:1400  h:1700*/
+	width: 1400px;
+	height: 1700px;
+	margin-left: auto;
+	margin-right: auto;
+	border: solid 1px;
+	border-color: red;
+}
+
+div#view
+{
+	/*w:1022 h:1700*/
+	width: 72%;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 1%;/*15px;*/
+	padding-right: 1%;
+	border: solid 1px;
+	border-color: yellow;
+}
+
+div#head
+{
+	/*w:976 h:280*/
+	width: 100%;
+	height: 16.5%;
+	border: solid 1px;
+	border-color: blue;
+}
+
+div#head-menu
+{
+	/*w:976 h:35*/
+	width: 100%;
+	height: 12.5%;
+	border: solid 1px;
+	border-color: black;
+}
+
+span#head-menu-leftbutton>img
+{
+	/*w:40 h:25*/
+	width: 38px;
+	height: 26px;
+	border: solid 1px;
+	border-color: orange;
+}
+
+span#head-menu-rightbutton
+{
+	/*w:70 h:35*/
+	float: right;
+	width: 70px;
+	height: 35px;
+	border: solid 1px;
+	border-color: pink;
+}
+
+div#context
+{
+
+}
+
+div#footer
+{
+
+}
