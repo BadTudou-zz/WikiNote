@@ -48,6 +48,28 @@
 				filepath VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
+
+			//参加笔记分类表
+			$sqlcmd = 'CREATE TABLE type
+			(
+				tID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
+				t1ID INTEGER UNSIGNED NOT NULL,
+				t2ID INTEGER UNSIGNED NOT NULL,
+				t3ID INTEGER UNSIGNED NOT NULL,
+				t4ID INTEGER UNSIGNED NOT NULL
+			)';
+			$this->m_database->executeQuery($sqlcmd);
+			for ($i=1; $i <= 4; $i++) 
+			{ 
+				$sqlcmd = 'CREATE TABLE t'. $i .'
+				(
+					tPID INTEGER UNSIGNED NOT NULL,
+					tID INTEGER UNSIGNED AUTO_INCREMENT  NOT NULL PRIMARY KEY,
+					title VARCHAR(128) NOT NULL
+				)';
+				$this->m_database->executeQuery($sqlcmd);
+			}
+			
 		}
 
 		/**
