@@ -65,7 +65,7 @@
 				(
 					tPID INTEGER UNSIGNED NOT NULL,
 					tID INTEGER UNSIGNED AUTO_INCREMENT  NOT NULL PRIMARY KEY,
-					title VARCHAR(128) NOT NULL
+					title VARCHAR(128) NOT NULL UNIQUE
 				)';
 				$this->m_database->executeQuery($sqlcmd);
 			}
@@ -107,6 +107,54 @@
 			$sqlcmd = 'UPDATE user SET pwd = \''. $pwdNew .'\' WHERE nickname = \''. $nickname .'\' AND pwd = \''. $pwdOld .'\'';
 			return $this->m_database->executeQuery($sqlcmd);
 		}
+
+		/**
+		 * [添加类别]
+		 * @param array $aType [类别，key代表ID,value代表类别名称]
+		 */
+		public function addType(array $aType)
+		{
+			$i = 1;
+			foreach ($aType as $key => $value) 
+			{
+				$sqlcmd = "INSERT INTO t$i (tPID, title) values ($key, '$value') ";
+				$this->m_database->executeQuery($sqlcmd);
+				$i++;
+			}
+		}
+
+		/**
+		 * [获取指定ID的所有子类别]
+		 * @param  array  $aID [层次的ID]
+		 * @return [array]     [类型数组]
+		 */
+		public function getSubtypes(array $aID)
+		{
+			$tables = '';
+			$sqlcmdWhere ='';
+			$depth = count($aID);
+			$tbIDsour = $depth-1;
+			$tbIDdest = $depth+1;
+			$fields = array();
+
+			for ($i=2; $i <= $depth; $i++) 
+			{ 
+				$tb = $depth - $i + 2;
+				$value = $aID[$depth-$i];
+				$tables .= ", t$i";
+				$sqlcmdWhere .= " AND t$tb.tID = $value";
+			}
+			$sqlcmd = "SELECT t$tbIDdest.title FROM t$tbIDdest$tables WHERE t$tbIDdest.tPID = $aID[$tbIDsour]";
+			$sqlcmd .= $sqlcmdWhere;
+
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+
+			return $fields;
+		}
 	}
 
 	//TEST
@@ -114,24 +162,24 @@
 	$my->m_database->connect();
 	if ($my->m_database->getConnectState())
 	{
-		echo ' 连接成功';
-		if ($my->m_database->selectDatabase('WikiNote'))
+	echo ' 连接成功';
+		
+		if ($my->m_database->createDatabase('WikiNote'));
 		{
-			echo ' 选择数据库成功';
-			if ($my->m_database->createDatabase('WikiNote'));
-			{
-				echo '创建成功';
-				$my->initDatabase('WikiNote');
-				/*$my->addUser('user1', 'pwd1');
-				$my->addUser('user2', 'pwd2');*/
-				$my->changeUserPWD('pwd2', 'user2', 'newpwd');
+			echo '创建成功';
+			$my->initDatabase('WikiNote');
+			$my->addUser('user1', 'pwd1');
+			$my->addUser('user2', 'pwd2');
+			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
+			$a = array(0 => '测试9',1 => '测试2' );
+			$my->addType($a);
+			print_r($my->getSubtypes(array('1')));
 	
-			}
-			if ($my->m_database->dropDatabase('dd'))
-			{
-				echo '删除成功';
-			}		
 		}
+		if ($my->m_database->dropDatabase('dd'))
+		{
+			echo '删除成功';
+		}		
 	}
 	else
 	{
