@@ -49,6 +49,25 @@
 			)';
 			$this->m_database->executeQuery($sqlcmd);
 		}
+		//创建日志表
+			$sqlcmd = 'CREATE TABLE log
+			(
+				logID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
+				uID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL ,
+				nID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL ,
+				replacetime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
+				filepath VARCHAR(128) NOT NULL
+			)';
+			$this->m_database->executeQuery($sqlcmd);
+
+			//创建消息表
+			$sqlcmd = 'CREATE TABLE msg
+			(
+				msgID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
+				mtext VARCHAR(128) NOT NULL,
+
+			)';
+			$this->m_database->executeQuery($sqlcmd);
 
 		/**
 		 * [添加用户]
