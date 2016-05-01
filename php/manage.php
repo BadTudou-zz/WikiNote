@@ -48,9 +48,9 @@
 				filepath VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
-		}
+		
 		//创建日志表
-			$sqlcmd = 'CREATE TABLE log
+			$sqlcmd = 'CREATE TABLE logs
 			(
 				logID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
 				uID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL ,
@@ -68,6 +68,7 @@
 
 			)';
 			$this->m_database->executeQuery($sqlcmd);
+			}
 
 		/**
 		 * [添加用户]
