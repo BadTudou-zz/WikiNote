@@ -27,6 +27,13 @@
 			{
 				echo '切换成功';
 			}
+
+			//创建存储过程
+			$sqlcmd = "CREATE PROCEDURE proc_recursion_delete(OUT p1 VARCHAR(128))
+					SELECT 'ok' INTO p1;
+			";
+			$this->m_database->executeQuery($sqlcmd);
+
 			//创建用户表
 			$sqlcmd = 'CREATE TABLE user 
 			(
@@ -61,6 +68,7 @@
 			$this->m_database->executeQuery($sqlcmd);
 			for ($i=1; $i <= 4; $i++) 
 			{ 
+				//创建分类
 				$sqlcmd = 'CREATE TABLE t'. $i .'
 				(
 					tPID INTEGER UNSIGNED NOT NULL,
@@ -68,16 +76,35 @@
 					title VARCHAR(128) NOT NULL UNIQUE
 				)';
 				$this->m_database->executeQuery($sqlcmd);
+
+				if ($i < 4)
+				{
+					//创建触发器
+					/*$sqlcmd = "CREATE TRIGGER trigger_t$i"."_delete AFTER DELETE ON t$i
+								FOR EACH ROW
+								BEGIN
+								CALL proc_recursion_delete(@p1);
+								END;";*/
+
+					$sqlcmd = "CREATE TRIGGER trigger_t$i"."_delete AFTER DELETE ON t$i
+								FOR EACH ROW
+								BEGIN
+									CALL proc_recursion_delete(@p1);
+									select @p1;
+								END;";
+					echo $sqlcmd;
+					$this->m_database->executeQuery($sqlcmd);
+				}
+				
 			}
-			
-		}
-		//创建日志表
+
+			//创建日志表
 			$sqlcmd = 'CREATE TABLE log
 			(
-				logID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
-				uID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL ,
-				nID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL ,
-				replacetime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
+				logID INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+				uID INTEGER UNSIGNED NOT NULL ,
+				nID INTEGER UNSIGNED NOT NULL ,
+				replacetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				filepath VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
@@ -86,10 +113,12 @@
 			$sqlcmd = 'CREATE TABLE msg
 			(
 				msgID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
-				mtext VARCHAR(128) NOT NULL,
-
+				mtext VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
+
+			
+		}
 
 		/**
 		 * [添加用户]
@@ -174,10 +203,36 @@
 
 			return $fields;
 		}
+
+		public function delSubTypes(array $aID)
+		{
+
+			$fields = array();
+			$tables = '';
+			$sqlcmdWhere ='';
+			$depth = count($aID);
+
+			for ($i=1; $i < $depth; $i++) 
+			{ 
+				$tables .= ", t$i";
+				$sqlcmdWhere .= " AND t$i.ID = ". $aID[$i-1];
+			}
+			
+			$sqlcmd = "DELETE FROM t$depth$tables WHERE t$depth.tID = ".$aID[$depth-1];
+			$sqlcmd .= $sqlcmdWhere;
+			echo $sqlcmd;
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+			print_r($fields);
+			return $fields;
+		}
 	}
 
 	//TEST
-	$my = new MANAGE('localhost', '3306', 'root', '123qwe');
+	$my = new MANAGE('localhost', '3306', 'root', 'mysql');
 	$my->m_database->connect();
 	if ($my->m_database->getConnectState())
 	{
@@ -190,9 +245,10 @@
 			$my->addUser('user1', 'pwd1');
 			$my->addUser('user2', 'pwd2');
 			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
-			$a = array(0 => '测试9',1 => '测试2' );
+			$a = array(0 => '工业技术',1 => '计算机',3 => '编程', 4 =>'C语言');
 			$my->addType($a);
-			print_r($my->getSubtypes(array('1')));
+			//print_r($my->getSubtypes(array('1')));
+			$my->delSubTypes(array('1','2','3'));
 	
 		}
 		if ($my->m_database->dropDatabase('dd'))
