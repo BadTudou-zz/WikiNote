@@ -28,11 +28,12 @@
 				echo '切换成功';
 			}
 
-			//创建存储过程
+			/*//创建存储过程
 			$sqlcmd = "CREATE PROCEDURE proc_recursion_delete(OUT p1 VARCHAR(128))
-					SELECT 'ok' INTO p1;
+						BEGIN
+					SELECT @p1;
 			";
-			$this->m_database->executeQuery($sqlcmd);
+			$this->m_database->executeQuery($sqlcmd);*/
 
 			//创建用户表
 			$sqlcmd = 'CREATE TABLE user 
@@ -77,23 +78,10 @@
 				)';
 				$this->m_database->executeQuery($sqlcmd);
 
-				if ($i < 4)
+				if ($i > 1)
 				{
-					//创建触发器
-					/*$sqlcmd = "CREATE TRIGGER trigger_t$i"."_delete AFTER DELETE ON t$i
-								FOR EACH ROW
-								BEGIN
-								CALL proc_recursion_delete(@p1);
-								END;";*/
-
-					$sqlcmd = "CREATE TRIGGER trigger_t$i"."_delete AFTER DELETE ON t$i
-								FOR EACH ROW
-								BEGIN
-									CALL proc_recursion_delete(@p1);
-									select @p1;
-								END;";
-					echo $sqlcmd;
-					$this->m_database->executeQuery($sqlcmd);
+					$sqlcmd = "ALTER TABLE t$i ADD CONSTRAINT fk_deleteORupdate_tPID_$i FOREIGN KEY(tPID) REFERENCES t" .($i-1). '(tID) ON UPDATE CASCADE ON DELETE CASCADE';
+					$this->m_database->executeQuery($sqlcmd);	
 				}
 				
 			}
@@ -157,77 +145,112 @@
 		}
 
 		/**
-		 * [添加类别]
-		 * @param array $aType [类别，key代表ID,value代表类别名称]
+		 * [获取类型的ID，最上层]
+		 * @param  array  $aType [层次类型]
+		 * @return int        [存在：类型ID, 不存在：false]
 		 */
-		public function addType(array $aType)
-		{
-			$i = 1;
-			foreach ($aType as $key => $value) 
-			{
-				$sqlcmd = "INSERT INTO t$i (tPID, title) values ($key, '$value') ";
-				$this->m_database->executeQuery($sqlcmd);
-				$i++;
-			}
-		}
-
-		/**
-		 * [获取指定ID的所有子类别]
-		 * @param  array  $aID [层次的ID]
-		 * @return [array]     [类型数组]
-		 */
-		public function getSubtypes(array $aID)
+		public function getTypeID(array $aType)
 		{
 			$tables = '';
 			$sqlcmdWhere ='';
-			$depth = count($aID);
-			$tbIDsour = $depth-1;
-			$tbIDdest = $depth+1;
-			$fields = array();
-
-			for ($i=2; $i <= $depth; $i++) 
-			{ 
-				$tb = $depth - $i + 2;
-				$value = $aID[$depth-$i];
-				$tables .= ", t$i";
-				$sqlcmdWhere .= " AND t$tb.tID = $value";
-			}
-			$sqlcmd = "SELECT t$tbIDdest.title FROM t$tbIDdest$tables WHERE t$tbIDdest.tPID = $aID[$tbIDsour]";
-			$sqlcmd .= $sqlcmdWhere;
-
-			$queryResult = $this->m_database->executeQuery($sqlcmd);
-			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
-			{
-				array_push($fields, $field);
-			}
-
-			return $fields;
-		}
-
-		public function delSubTypes(array $aID)
-		{
-
-			$fields = array();
-			$tables = '';
-			$sqlcmdWhere ='';
-			$depth = count($aID);
-
+			$depth = count($aType);
 			for ($i=1; $i < $depth; $i++) 
 			{ 
 				$tables .= ", t$i";
-				$sqlcmdWhere .= " AND t$i.ID = ". $aID[$i-1];
+				$sqlcmdWhere .= " AND t".($i).".title = '". $aType[$i-1] ."'";
 			}
-			
-			$sqlcmd = "DELETE FROM t$depth$tables WHERE t$depth.tID = ".$aID[$depth-1];
+
+			$sqlcmd = 'SELECT t' .$depth. ".tID FROM t$depth$tables WHERE t$depth".".title = '" .$aType[$depth-1] ."'";
 			$sqlcmd .= $sqlcmdWhere;
-			echo $sqlcmd;
 			$queryResult = $this->m_database->executeQuery($sqlcmd);
-			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			if($queryResult)
 			{
-				array_push($fields, $field);
+				$field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC);
+				return $field['tID'];
 			}
-			print_r($fields);
-			return $fields;
+
+			return false;
+		}
+		/**
+		 * [添加类别]
+		 * @param array  $aType [层次类别]
+		 * @param string $title [添加的类别]
+		 * @return bool     	 [成功：true, 失败：false]
+		 */
+		public function addType(array $aType, string $title)
+		{
+			$depth = count($aType);
+			if ($depth == 0)
+			{
+				$sqlcmd = "INSERT INTO t1 (tPID, title) values (0, '$title')";
+				$this->m_database->executeQuery($sqlcmd);
+				return true;
+			}
+			if ($field = $this->getTypeID($aType))
+			{
+				$sqlcmd = 'INSERT INTO t'.($depth+1). '(tPID, title) values ('. $field. ", '$title')";
+				$this->m_database->executeQuery($sqlcmd);
+				return true;
+			}
+			return false;
+			
+		}
+
+		/**
+		 * [获取指定类型的所有子类别]
+		 * @param  array  $aType [层次类型]
+		 * @return array  $fields[成功：类别数组, 失败：false]
+		 */
+		public function getSubTypes(array $aType)
+		{
+			$fields = array();
+			$depth = count($aType);
+			if ($field = $this->getTypeID($aType))
+			{
+				$sqlcmd = 'SELECT t' .($depth+1). '.title FROM t' .($depth+1). "  WHERE t".($depth+1). ".tPID = " .$field;
+				$queryResult = $this->m_database->executeQuery($sqlcmd);
+				while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+				{
+					array_push($fields, $field);
+				}
+				return $fields;
+			}
+			return false;
+		}
+
+		/**
+		 * [级联删除指定ID的类别]
+		 * @param  array  $aType [层次类型]
+		 * @return bool     	 [成功：true, 失败：false]
+		 */
+		public function delSubTypes(array $aType)
+		{
+			$depth = count($aType);
+			if ($field = $this->getTypeID($aType))
+			{
+				$sqlcmd = "DELETE FROM t$depth WHERE t$depth.tID = $field";
+				$queryResult = $this->m_database->executeQuery($sqlcmd);
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * [重命名类型名称]
+		 * @param  array  $aType [层次类型]
+		 * @param  string $title [新名词]
+		 * @return bool     	 [成功：true, 失败：false]
+		 */
+		public function renameTypeTitle(array $aType, string $title)
+		{
+			$depth = count($aType);
+			if ($field = $this->getTypeID($aType))
+			{
+				$sqlcmd = "UPDATE  t$depth SET title = '$title' WHERE tID = $field";
+				$this->m_database->executeQuery($sqlcmd);
+				return true;
+			}
+			return false;
 		}
 	}
 
@@ -245,10 +268,19 @@
 			$my->addUser('user1', 'pwd1');
 			$my->addUser('user2', 'pwd2');
 			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
-			$a = array(0 => '工业技术',1 => '计算机',3 => '编程', 4 =>'C语言');
-			$my->addType($a);
-			//print_r($my->getSubtypes(array('1')));
-			$my->delSubTypes(array('1','2','3'));
+			echo '2ok'.$my->addType(array(),'工业技术');
+			echo '2ok'.$my->addType(array(),'数理化');
+			echo '2ok'.$my->addType(array(),'人文');
+			echo '4ok'.$my->addType(array('工业技术'),'计算机');
+			echo '4ok'.$my->addType(array('工业技术'),'机械');
+			echo '4ok'.$my->addType(array('工业技术'),'航天');
+			echo '4ok'.$my->addType(array('工业技术', '计算机'),'编程技术');
+			echo $my->renameTypeTitle(array('工业技术','计算机','编程技术'), '新编程技术');
+			print_r($my->getSubTypes(array('工业技术')));
+			print_r($my->getSubTypes(array('工业技术', '计算机')));
+			print_r($my->getSubTypes(array('测试2')));
+			echo $my->delSubTypes(array('测试'));
+			echo $my->delSubTypes(array('测试2'));
 	
 		}
 		if ($my->m_database->dropDatabase('dd'))
