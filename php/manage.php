@@ -15,6 +15,8 @@
 		public function __construct(string $host, string $port,  string $user, string $pwd)
 		{
 			$this->m_database = new MYSQL($host, $port, $user, $pwd);
+			$this->m_database->connect();
+			$this->m_database->selectDatabase('WikiNote');
 		}
 
 		/**
@@ -255,7 +257,7 @@
 	}
 
 	//TEST
-	$my = new MANAGE('localhost', '3306', 'root', 'mysql');
+	/*$my = new MANAGE('localhost', '3306', 'root', 'mysql');
 	$my->m_database->connect();
 	if ($my->m_database->getConnectState())
 	{
@@ -291,6 +293,6 @@
 	else
 	{
 		echo '连接失败';
-	}
+	}*/
 		
 ?>

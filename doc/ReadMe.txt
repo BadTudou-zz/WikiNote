@@ -45,12 +45,12 @@ WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式
 3.书籍 x
 
 4.系统
-	b.type: typeID, p1ID, p2ID, p3ID, p4ID
+	b.type: tID, t1ID, t2ID, t3ID, t4ID
 
-	c.p1  	: p1ID, name
-	d.p2
-	e.p3
-	f.p4
+	c.t1  	: tPID,  tID, title
+	d.t2
+	e.t3
+	f.t4
 
 	h.log 	: logID, uID, nID, replaceTime, logPath
 	i.msg 	: msgID, type, text

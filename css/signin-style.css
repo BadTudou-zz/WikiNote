@@ -30,9 +30,9 @@ div#logo
 
 div#userForm
 {
-	/*w:280 h:220*/
+	/*w:280 h:200*/
 	width: 280px;
-	height: 220px;
+	height: 200px;
 	margin-left: auto;
 	margin-right: auto;
 	/* border: solid 1px; */
@@ -76,6 +76,9 @@ div#userForm-inputform
 div#userForm-inputform-tip
 {
 	height: 30px;
+	line-height: 30px;
+	color: orange;
+	text-align: center;
 }
 
 div#userForm-inputform>form>input
@@ -109,6 +112,21 @@ div#userForm-inputform>form>a
 	text-align: vertical;
 }
 
+div#changeUserAction>a
+{
+	/*w:130 h:30*/
+	display: block;
+	width: 130px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 180px;
+	margin-bottom: 10px;
+	color: #12A5D3;
+	background-color: orange;
+	text-align: center;
+	border: solid 1px;
+	border-color: orange;
+}
 
 div#openPlatform-title
 {

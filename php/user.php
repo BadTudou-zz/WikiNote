@@ -9,7 +9,8 @@
 	Note	:	用户操作
 */
 	require_once('SQL.php');
-	class USER
+	require_once('manage.php');
+	class WIKINOTE_USER
 	{
 		public $m_database;
 		public function __construct(string $host, string $port,  string $user, string $pwd)
@@ -38,11 +39,20 @@
 			}
 			return '';
 		}
+
+		public function register(string $nickname, string $pwd)
+		{
+			$this->m_database = new MANAGE('localhost', '3306', 'root', 'mysql');
+			$this->m_database->addUser($nickname, $pwd);
+			return true;
+		}
+
+
 			
 	}
 
 	//TEST
-	$my = new USER('localhost', '3306', 'root', '123qwe');
+	/*$my = new WIKINOTE_USER('localhost', '3306', 'root', 'mysql');
 	$my->m_database->connect();
 	if ($my->m_database->getConnectState())
 	{
@@ -51,5 +61,5 @@
 		{
 			echo '空';
 		}
-	}
+	}*/
 ?>
