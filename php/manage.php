@@ -30,17 +30,19 @@
 				echo '切换成功';
 			}
 
-			/*//创建存储过程
-			$sqlcmd = "CREATE PROCEDURE proc_recursion_delete(OUT p1 VARCHAR(128))
-						BEGIN
-					SELECT @p1;
-			";
-			$this->m_database->executeQuery($sqlcmd);*/
-
 			//创建用户表
 			$sqlcmd = 'CREATE TABLE user 
 			(
 				uID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY, 
+				nickname VARCHAR(128) NOT NULL,
+				pwd CHAR(128) NOT NULL
+			)';
+			$this->m_database->executeQuery($sqlcmd);
+
+			//创建管理员表
+			$sqlcmd = 'CREATE TABLE manager 
+			(
+				mID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY, 
 				nickname VARCHAR(128) NOT NULL,
 				pwd CHAR(128) NOT NULL
 			)';
@@ -105,9 +107,7 @@
 				msgID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
 				mtext VARCHAR(128) NOT NULL
 			)';
-			$this->m_database->executeQuery($sqlcmd);
-
-			
+			$this->m_database->executeQuery($sqlcmd);	
 		}
 
 		/**
@@ -146,6 +146,23 @@
 			return $this->m_database->executeQuery($sqlcmd);
 		}
 
+		/**
+		 * [获取指定范围用户列表]
+		 * @param  int    $start [开始的序号]
+		 * @param  int    $count [个数]
+		 * @return [array]        [用户信息]
+		 */
+		public function getUsers(int $start, int $count)
+		{
+			$fields = array();
+			$sqlcmd = 'SELECT uID, nickname FROM user ';
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+			return $fields;
+		}
 		/**
 		 * [获取类型的ID，最上层]
 		 * @param  array  $aType [层次类型]
@@ -253,6 +270,28 @@
 				return true;
 			}
 			return false;
+		}
+
+		/**
+		* [管理员登录]
+		* @param  string $nickname [昵称]
+		* @param  string $pwd      [密码]
+		* @return [string]         [成功,用户ID;失败,空字符串]
+		*/
+		public function login(string $nickname, string $pwd)
+		{
+			$this->m_database->connect();
+			if ($this->m_database->selectDatabase('WikiNote'))
+			{
+				$sqlcmd = 'SELECT mID FROM manager WHERE nickname = \''. $nickname .'\' AND pwd = \''. $pwd .'\'';
+				$queryResult = $this->m_database->executeQuery($sqlcmd);
+				$fields = mysqli_fetch_array($queryResult, MYSQLI_ASSOC);
+				if (is_array($fields))
+				{
+					return $fields['mID'];
+				}
+			}
+			return '';
 		}
 	}
 

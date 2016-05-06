@@ -1,0 +1,161 @@
+/*
+		Copyright © BadTudou, 2016
+		All rights reserved
+	
+		Name	:	signin-style.css
+		By		:	BadTudu
+		Date	:	2016年5月02日14:09:05
+		Note	:	用户登录样式表
+	*/
+body
+{
+	/*w:370  h:390*/
+	width: 370px;
+	height: 390px;
+	margin-left: auto;
+	margin-right: auto;
+	border: solid 1px;
+	border-color: #CCCCCC;
+	background-color: #F7F7F7;
+}
+
+div#logo
+{
+	/*w:370 h:100*/
+	height: 100px;
+	/* border: solid 1px; */
+	border-color: black;
+}
+
+
+div#userForm
+{
+	/*w:280 h:200*/
+	width: 280px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	/* border: solid 1px; */
+	border-color: blue;
+}
+
+div#openPlatform
+{
+	/*w:370 h:70*/
+	height: 70px;
+/* 	border: solid 1px; */
+	border-color: orange;
+}
+
+div#logo>img
+{
+	/*w:*/
+	display: block;
+	width: 78px;
+	height: 61px;
+	margin-left: auto;
+	margin-right: auto;
+}
+div#logo-text
+{
+	width: 100%;
+	padding-top: 5px;
+	color: #12A5D3;
+	font-weight: bold;
+	text-align: center;
+
+}
+div#userForm-inputform
+{
+	/*w:280 h:150*/
+	height: 150px;
+	border: solid 1px;
+	border-color: #CCCCCC;
+}
+
+div#userForm-inputform-tip
+{
+	height: 30px;
+	line-height: 30px;
+	color: orange;
+	text-align: center;
+}
+
+div#userForm-inputform>form>input
+{
+	width: 274px;
+	height: 25px;
+	margin-bottom: 10px;
+
+}
+
+div#userForm-inputform>form>input[type="submit"]
+{
+	width: 276px;
+	height: 35px;
+	color: white;
+	font-size: 120%;
+	font-style: bold;
+	background-color:  #12A5D3;
+}
+div#userForm-inputform>form>input[type="checkbox"]
+{
+	width: 15px;
+	vertical-align: middle;
+}
+div#userForm-inputform>form>a
+{
+	float: right;
+	color: #12A5D3;
+	font-weight: bold;
+	line-height: 35px;
+	text-align: vertical;
+}
+
+div#changeUserAction>a
+{
+	/*w:130 h:30*/
+	display: block;
+	width: 130px;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 180px;
+	margin-bottom: 10px;
+	color: #12A5D3;
+	background-color: orange;
+	text-align: center;
+	border: solid 1px;
+	border-color: orange;
+}
+
+div#openPlatform-title
+{
+	height: 25px;
+	color: #12A5D3;
+	text-align: center;
+}
+
+div#openPlatform-loginList
+{
+	height: auto;
+	border-top: solid 1px;
+	border-color: #CCCCCC;
+}
+
+div#openPlatform-loginList>ol
+{
+	list-style-type:none;
+	margin-top: 5px;
+	padding-left: 0px;
+	text-align: center;
+}
+div#openPlatform-loginList>ol>li
+{
+	display: inline;
+}
+
+div#openPlatform-loginList>ol>li>img
+{
+	width: 36px;
+	height: 36px;
+}

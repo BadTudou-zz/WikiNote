@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WikiNote管理登录</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../css/signin-style.css">
+	<script type="text/javascript" src="../js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="../js/manage_signin.js"></script>
+</head>
+<body>
+	<div id='logo'>
+		<img src="../images/logo.png">
+		<div id='logo-text'>登录WikiNote</div>
+	</div>
+	<div id='userForm'>
+		<div id='userForm-inputform'>
+			<div id='userForm-inputform-tip'></div>
+			<form id='form_user'>
+				<input name='user' id='input_user' placeholder="用户名"/>
+				<input name='pwd' id='input_pwd' placeholder="密码"/>
+				<input type="submit" id='button_signin' value="立即登录"/>
+				<input type="checkbox" id='check_rememberLoginInfo' value=""><b id='text_rememberLoginInfo'>记住登录信息</b></input>
+				<a href="#" id='a_forgetPassword'>忘记密码?</a>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
