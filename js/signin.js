@@ -7,6 +7,21 @@
 	Date	:	2016年5月03日13:40:05
 	Note	:	WikiNote用户登录
 */
+
+/**
+ * [获取url传递的指定名称的参数值]
+ * @param {[string]} name [参数名]
+ */
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+ 
+/**
+ * [用户活动是否为登录]
+ */
 function IsUserLoginAction()
 {
 	if ($('#button_changeAction').text() == '转到注册')
@@ -16,9 +31,44 @@ function IsUserLoginAction()
 	return false;
 }
 
+/**
+ * [根据活动改变视图]
+ * @param {[bool]} state [true:注册, false:登录]
+ */
+function ChangeViewByAction(state)
+{
+	if (state)
+	{
+		$('title').text('注册WikiNote');
+		$('#logo-text').text('注册WikiNote');
+		$('#button_signin').val('立即注册');
+		$('#check_rememberLoginInfo').hide();
+		$('#text_rememberLoginInfo').hide();
+		$('#a_forgetPassword').hide();
+		$('#openPlatform-title').text('使用其他帐号注册');
+		$('#button_changeAction').text('转到登录');
+	}
+	else
+	{
+		$('title').text('登录WikiNote');
+		$('#logo-text').text('登录WikiNote');
+		$('#button_signin').val('立即登录');
+		$('#check_rememberLoginInfo').show();
+		$('#text_rememberLoginInfo').show();
+		$('#a_forgetPassword').show();
+		$('#openPlatform-title').text('使用其他帐号登录');
+		$('#button_changeAction').text('转到注册');
+	}
+
+}
+/**
+ * [登录/注册]
+ * @param [string] action [活动：登录 或 注册]
+ * @param [string] user   [用户名]
+ * @param [string] pwd    [密码]
+ */
 function SignIn(action, user, pwd)
 {
-	console.log('user:'+user+' pwd:'+pwd);
 	$.ajax(
 	{
 		url: '../php/user_web.php',
@@ -42,6 +92,10 @@ function SignIn(action, user, pwd)
 
 $(document).ready(function()
 {
+	if (GetQueryString('action') == 'register')
+	{
+		ChangeViewByAction(true);
+	}
 	$('#button_signin').click(function(event) 
 	{
 		var user = $('#input_user').val();
@@ -59,28 +113,7 @@ $(document).ready(function()
 
 	$('#button_changeAction').click(function(event) 
 	{
-		if (IsUserLoginAction())
-		{
-			$('#logo-text').text('注册WikiNote');
-			$('#button_signin').val('立即注册');
-			$('#check_rememberLoginInfo').hide();
-			$('#text_rememberLoginInfo').hide();
-			$('#a_forgetPassword').hide();
-			$('#openPlatform-title').text('使用其他帐号注册');
-			$(this).text('转到登录');
-		}
-		else
-		{
-			$('#logo-text').text('登录WikiNote');
-			$('#button_signin').val('立即登录');
-			$('#check_rememberLoginInfo').show();
-			$('#text_rememberLoginInfo').show();
-			$('#a_forgetPassword').show();
-			$('#openPlatform-title').text('使用其他帐号登录');
-			$(this).text('转到注册');
-
-		}
-
+		ChangeViewByAction(IsUserLoginAction());
 		return false;
 		
 	});

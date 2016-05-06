@@ -29,7 +29,7 @@
           <td width="200" bgcolor="#D0E8B4">密码</td>
         </tr>
         <?php
-$link=mysql_connect("localhost:3306","a0827184445","34565126") or die("数据库连接失败".mysql_error());    //建立与数据库的连接
+$link=mysql_connect("localhost:330","a0827184445","34565126") or die("数据库连接失败".mysql_error());    //建立与数据库的连接
  mysql_select_db("a0827184445", $link);   //选择数据库
 mysql_query("set names utf8");//php文档结构为html5，字符集只能使用utf-8
 if (isset($_POST["Submit"]))

@@ -53,7 +53,7 @@ div#footer
 {
 	width: 100%;
 	height: 150px;
-	border: solid 1px;
+	/* border: solid 1px; */
 	border-color: blue;
 }
 div#head-menu
@@ -61,7 +61,7 @@ div#head-menu
 	/*w:976 h:35*/
 	width: 100%;
 	height: 35px;
-	border: solid 1px;
+	/* border: solid 1px; */
 	border-color: black;
 }
 
@@ -73,7 +73,7 @@ div#head-logo
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: -25px;
-	border: solid 1px;
+	/* border: solid 1px; */
 	border-color: black;
 }
 div#head-searchbox
@@ -127,7 +127,7 @@ span#head-menu-leftbutton>img
 	/*w:40 h:25*/
 	width: 38px;
 	height: 26px;
-	border: solid 1px;
+	/* border: solid 1px; */
 	border-color: orange;
 }
 
@@ -154,6 +154,28 @@ div#context-AD
 	color: white;
 	background-color: #CC3366;
 }
+
+div#context-notelist
+{
+	/*w:970 h:300px*/
+	width: 100%;
+	height: 300px;
+	border: solid 1px;
+	border-color: blue;
+}
+
+div#context-notelist>ol>li
+{
+	display: block;
+	float: left;
+	margin: 5px 20px 5px 20px;
+	width: 130px;
+	height: 130px;
+	text-align: center;
+	border: solid 1px;
+	border-color: #CC3366;
+}
+
 div#context-AD-text
 {
 	float: left;

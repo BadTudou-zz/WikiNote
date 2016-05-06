@@ -47,6 +47,11 @@
 			return true;
 		}
 
+		public function getnotes(int $start, int $count)
+		{
+			$this->m_database = new MANAGE('localhost', '3306', 'root', 'mysql');
+			return $this->m_database->getNotes($start, $count);
+		}
 
 			
 	}

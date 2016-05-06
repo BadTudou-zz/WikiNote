@@ -34,8 +34,8 @@ WikiNote是一个在线协同笔记编写与笔记分享平台，其运行方式
 4.系统
 二.数据设计
 1.用户
-	a.user	：uID, pwd, nickname
-	b.manager:mID, password
+	a.user	：uID, nickname, pwd
+	b.manager:mID, nickname, password
 
 2.笔记
 	a.note 	: nID, notetypeID(b.type), title, creatorID, createTime, modifyTime, filepath
