@@ -21,7 +21,7 @@
         <div class="menu-oc"><img src="../images/manage/menu-all.png" /></div>
     	<ul>
         	<li>
-            	<a class="a_list a_list1">笔记分类</a>
+            	<a class="a_list a_list1" id="a_notetype" href="#">笔记分类</a>
                 <div class="menu_list menu_list_first">
                 	<a class="lista_first" href="#">添加分类</a>
                     <a href="#">删除分类</a>
@@ -34,7 +34,7 @@
                 	<a href="#if1">查询用户</a>
                     <a href="#">添加用户</a>
                     <a href="#">删除用户</a>
-                    <a href="#">所有用户</a>
+                    <a href="#" id="alluser">所有用户</a>
                 </div>
             </li>
             <li>
@@ -59,7 +59,18 @@
     <div class="leftmenu2">
     	<div class="menu-oc1"><img src="../images/manage/menu-all.png" class="nav-top" /></div>
         <ul>
-        	<li>
+            <li id="topmenu-user">
+                <a class="j_a_list j_a_list2"></a>
+                <div class="j_menu_list">
+                    <span class="sp2"><i></i>用户管理</span>
+                  <a href="#iframe1">查询用户</a>
+                    <a href="#">添加用户</a>
+                    <a href="#">删除用户</a>
+                    <a href="#">所有用户</a>
+                    
+              </div>
+            </li>
+        	<li id="topmenu-type">
             	<a class="j_a_list j_a_list1"></a>
                 <div class="j_menu_list j_menu_list_first">
                 	<span class="sp1"><i></i>笔记分类</span>
@@ -68,18 +79,8 @@
                     <a href="#">修改分类</a>
                 </div>
             </li>
-            <li>
-            	<a class="j_a_list j_a_list2"></a>
-                <div class="j_menu_list">
-                	<span class="sp2"><i></i>用户管理</span>
-                  <a href="#iframe1">查询用户</a>
-                    <a href="#">添加用户</a>
-                    <a href="#">删除用户</a>
-                    <a href="#">所有用户</a>
-                    
-              </div>
-            </li>
-            <li>
+            
+            <li id="topmenu-note">
             	<a class="j_a_list j_a_list3"></a>
                 <div class="j_menu_list">
                 	<span class="sp3"><i></i>笔记管理</span>
@@ -93,7 +94,7 @@
     </div>
     <div  id="content1" align="center">
     <div style=" font-size:24px"><a name="if1">查询用户信息</a></div>
-    <iframe class="iframe1" src="userlist.html"> 
+    <iframe class="iframe1" id="iframe-src"> 
     </iframe></div>
     <!-- <div id="content2" align="center"><div style=" font-size:24px"><a name="if2"> 添加用户</a></div>
     <iframe class="iframe2" src="userlist.html"></iframe> -->

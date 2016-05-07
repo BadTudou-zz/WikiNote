@@ -38,13 +38,13 @@
 				case 'register':
 					$user = $_POST['user'];
 					$pwd = $_POST['pwd'];
-					if ($wikiuser->resister($user, $pwd))
+					if ($wikiuser->register($user, $pwd))
 					{
-						SendRespond(1, '用户已存在');
+						SendRespond(0, '注册成功');
 					}
 					else
 					{
-						SendRespond(0, '注册成功');
+						SendRespond(1, '用户已存在');
 					}
 					break;
 				

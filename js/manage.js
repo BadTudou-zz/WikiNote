@@ -71,3 +71,38 @@ $(function()
         });
     })
 })
+
+$(document).ready(function($) 
+{
+    console.log('ready');
+    $('#topmenu-type').hover(function() 
+    {
+        $('#iframe-src').attr('src','../html/typelist.html');   
+        /* Stuff to do when the mouse enters the element */
+    }, function() {
+        /* Stuff to do when the mouse leaves the element */
+    });
+    $('#topmenu-user').hover(function() 
+    {
+        $('#iframe-src').attr('src','../html/userlist.html');
+        /* Stuff to do when the mouse enters the element */
+    }, function() {
+        /* Stuff to do when the mouse leaves the element */
+    });
+    $('#topmenu-note').hover(function() 
+    {
+        $('#iframe-src').attr('src','../html/notelist.html');
+        /* Stuff to do when the mouse enters the element */
+    }, function() {
+        /* Stuff to do when the mouse leaves the element */
+    });
+    $('a').click(function(event) 
+    {
+        var title = $(this).text();
+        switch(title)
+        {
+            case '所有用户':
+
+        }
+    });
+});
