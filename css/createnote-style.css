@@ -1,0 +1,147 @@
+@charset "utf-8";
+/* CSS Document */
+body
+{
+	
+	font-size:14px;
+	
+}
+
+#imgbox
+{
+	position: absolute;
+	height: 118px;
+	width: 168px;
+	left: 556px;
+	top: 19px;
+	align-content: center;
+}
+
+#titlebox
+{
+	position: absolute;
+	left: 546px;
+	top: 147px;
+	height: 24px;
+	width: 184px;
+	margin-top: 10px;
+	text-align: center;
+	color: #0086D1;
+	font: '黑体';
+	font-size: 20px;
+}
+
+
+#formbox
+{
+	position: absolute;
+	left: 192px;
+	top: 281px;
+	height: 704px;
+	width: 923px;
+	border: #0086D1 solid 2px;
+	border-radius: 10px;
+	
+}
+
+.backperson
+{
+    width:100%; 
+	height:10%; 
+	background-color:#0086D1;
+}
+.title_input
+{
+	
+	height:30px;
+	width:600px;
+	border: solid #E3E3E3 2px;
+	border-radius:5px;
+}
+.content_input
+{
+	
+	height:300px;
+	width:600px;
+	border: solid #E3E3E3 1px;
+	border-radius:5px;
+}
+.select
+{
+	padding:0 5px;
+	height:38px;
+	font-size:12px;
+	border:1px #1DA7FF solid;
+	vertical-align:middle; 
+	appearance: button;
+	-webkit-appearance:button;
+}
+.ulColumn
+{
+	overflow:hidden;
+	list-style:none;
+}
+
+.ulColumn li
+{
+	margin:15px 0;
+}
+
+.ulColumn li .item_name
+{
+	text-align:right;
+	display:inline-block;
+}
+
+button,input,select
+{
+	font-family:inherit;
+	font-size:inherit;
+	line-height:inherit;
+}
+
+.uploadimg
+{
+	display:inline-block;
+	padding:15px;
+	background:#E6E9D9;
+	position:relative;
+	border:1px #008CFF solid;
+}
+.uploadimg input
+{
+	display:none;
+}
+.uploadimg span
+{
+	display:block;
+	font-size:18px;
+	text-align:center;
+	color:#008CDB;
+}
+.uploadimg span:hover
+{
+	color:#A7315D;
+}
+
+.link_btn
+{
+	border:1px #139667 solid;
+	background:#19a97b;
+	color:white;
+	padding:8px 15px;
+	display:inline-block;
+	cursor:pointer;
+}
+
+.link_btn:hover
+{
+	background:#11a274;
+	border:1px #0e8f61 solid;
+}
+
+span
+{
+	font-size:18px;
+	font:bold;
+}
