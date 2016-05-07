@@ -52,7 +52,7 @@
 			$sqlcmd = 'CREATE TABLE note
 			(
 				nID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
-				notetypeID INTEGER UNSIGNED NOT 	NULL,
+				notetypeID INTEGER UNSIGNED NOT NULL,
 				title VARCHAR(128) NOT NULL,
 				creatorID INTEGER UNSIGNED NOT 	NULL,
 				createTime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
@@ -65,10 +65,10 @@
 			$sqlcmd = 'CREATE TABLE type
 			(
 				tID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
-				t1ID INTEGER UNSIGNED NOT NULL,
-				t2ID INTEGER UNSIGNED NOT NULL,
-				t3ID INTEGER UNSIGNED NOT NULL,
-				t4ID INTEGER UNSIGNED NOT NULL
+				t1ID INTEGER UNSIGNED,
+				t2ID INTEGER UNSIGNED,
+				t3ID INTEGER UNSIGNED,
+				t4ID INTEGER UNSIGNED
 			)';
 			$this->m_database->executeQuery($sqlcmd);
 			for ($i=1; $i <= 4; $i++) 
@@ -81,6 +81,10 @@
 					title VARCHAR(128) NOT NULL UNIQUE
 				)';
 				$this->m_database->executeQuery($sqlcmd);
+
+				$sqlcmd = "ALTER TABLE type ADD CONSTRAINT fk_type_t".$i."ID FOREIGN KEY(t".$i."ID) REFERENCES t".$i."(tID) ON UPDATE CASCADE ON DELETE CASCADE";
+				$this->m_database->executeQuery($sqlcmd);	
+				echo $sqlcmd;
 
 				if ($i > 1)
 				{
@@ -108,6 +112,15 @@
 				mtext VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);	
+
+			//创建笔记表外键
+				echo $sqlcmd;
+			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_creatOrID FOREIGN KEY(creatorID) REFERENCES user(uID) ON UPDATE CASCADE";
+			$this->m_database->executeQuery($sqlcmd);	
+
+			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_notetypeID FOREIGN KEY(notetypeID) REFERENCES type(tID) ON UPDATE CASCADE ON DELETE CASCADE";
+			$this->m_database->executeQuery($sqlcmd);	
+
 		}
 
 		/**
@@ -154,8 +167,9 @@
 		 */
 		public function getUsers(int $start, int $count)
 		{
+			$this->m_database->selectDatabase('WikiNote');
 			$fields = array();
-			$sqlcmd = 'SELECT uID, nickname FROM user ';
+			$sqlcmd = "SELECT uID, nickname FROM user ORDER BY uID LIMIT $start , $count";
 			$queryResult = $this->m_database->executeQuery($sqlcmd);
 			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
 			{
@@ -293,6 +307,25 @@
 			}
 			return '';
 		}
+
+		public function addNote(int $creatorID, int $typeID,  string $title)
+		{
+			$sqlcmd = "INSERT INTO note (notetypeID, title, creatorID, filepath) values ($typeID, '$title', $creatorID, '$title')";
+			echo $sqlcmd;
+			$this->m_database->executeQuery($sqlcmd);
+
+		}
+		public function getNotes(int $start, int $count)
+		{
+			$fields = array();
+			$sqlcmd = "SELECT title FROM note ORDER BY nID LIMIT $start , $count";
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+			return $fields;
+		}
 	}
 
 	//TEST
@@ -301,7 +334,10 @@
 	if ($my->m_database->getConnectState())
 	{
 	echo ' 连接成功';
-		
+		if ($my->m_database->selectDatabase('WikiNote'))
+		{
+			print_r($my->getUsers(0, 10));
+		}
 		if ($my->m_database->createDatabase('WikiNote'));
 		{
 			echo '创建成功';
@@ -317,17 +353,27 @@
 			echo '4ok'.$my->addType(array('工业技术'),'航天');
 			echo '4ok'.$my->addType(array('工业技术', '计算机'),'编程技术');
 			echo $my->renameTypeTitle(array('工业技术','计算机','编程技术'), '新编程技术');
-			print_r($my->getSubTypes(array('工业技术')));
-			print_r($my->getSubTypes(array('工业技术', '计算机')));
-			print_r($my->getSubTypes(array('测试2')));
-			echo $my->delSubTypes(array('测试'));
-			echo $my->delSubTypes(array('测试2'));
+			$my->getSubTypes(array('工业技术'));
+			$my->getSubTypes(array('工业技术', '计算机'));
+			$my->getSubTypes(array('测试2'));
+			$my->delSubTypes(array('测试'));
+			$my->delSubTypes(array('测试2'));
+			$sqlcmd = 'insert into type (t1ID, t2ID, t3ID, t4ID) values (1,1,1,1)';
+			$my->m_database->executeQuery($sqlcmd);
+			$my->addNote(1, 1, '我有一事，生死予之');
+			$my->addNote(1, 1, '我承认我不曾历经沧桑');
+			$my->addNote(1, 1, '时间旅行者的妻子');
+			$my->addNote(1, 1, '一个，很高兴认识你');
+			$my->addNote(1, 1, '你好，旧时光');
+			$my->addNote(1, 1, '城南旧事');
+			print_r($my->getNotes(0, 10));
+			print_r($my->getUsers(0, 10));
 	
 		}
 		if ($my->m_database->dropDatabase('dd'))
 		{
 			echo '删除成功';
-		}		
+		}
 	}
 	else
 	{

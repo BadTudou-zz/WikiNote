@@ -32,7 +32,11 @@
 						SendRespond(0, '登录成功');
 					}
 					break;
-	
+				case 'getusers':
+					$start = $_POST['start'];
+					$count = $_POST['count'];
+					echo json_encode($wikimanager->getUsers($start, $count));
+					break;
 				default:
 					# code...
 				break;

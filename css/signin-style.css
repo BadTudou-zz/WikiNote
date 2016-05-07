@@ -47,7 +47,7 @@ div#openPlatform
 	border-color: orange;
 }
 
-div#logo>img
+div#logo>a>img
 {
 	/*w:*/
 	display: block;

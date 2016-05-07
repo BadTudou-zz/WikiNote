@@ -38,17 +38,20 @@
 				case 'register':
 					$user = $_POST['user'];
 					$pwd = $_POST['pwd'];
-					SendRespond(1, '用户已存在');
-					/*if ($wikiuser->resister($user, $pwd))
+					if ($wikiuser->resister($user, $pwd))
 					{
 						SendRespond(1, '用户已存在');
 					}
 					else
 					{
 						SendRespond(0, '注册成功');
-					}*/
+					}
 					break;
 				
+				case 'getnotes':
+					$start = $_POST['start'];
+					$count = $_POST['count'];
+					echo json_encode($wikiuser->getnotes($start, $count));
 				
 				default:
 					# code...

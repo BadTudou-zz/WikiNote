@@ -4,6 +4,8 @@
 	<title>WikiNote</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="../css/index-style.css">
+	<script type="text/javascript" src="../js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="../js/index.js"></script>
 </head>
 <body>
 	<div id='view'>
@@ -14,7 +16,7 @@
 				</span>
 
 				<span id='head-menu-rightbutton'>
-					<a href="#">登录</a>
+					<a href="signin.html">登录</a>
 				</span>
 			</div>
 			<div id='head-logo'>
@@ -34,8 +36,11 @@
 					WikiNote，这里是宣传语的预留地！
 				</div>
 				<div id='context-AD-button'>
-					<a href="#">立即注册！</a>
+					<a href="signin.html?action=register">立即注册！</a>
 				</div>
+			</div>
+			<div id='context-notelist'>
+				<ol id='notelist'></ol>
 			</div>
 		</div>
 		<div id='footer'>

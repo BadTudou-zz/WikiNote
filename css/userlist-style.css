@@ -1,0 +1,6 @@
+div#userlist>ol
+{
+	list-style: none;
+	float: left;
+	width: 30%;
+}
