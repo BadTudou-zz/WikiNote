@@ -7,14 +7,14 @@
     Date    :   2016年5月06日11:55:05
     Note    :   WikiNote主界面
 */
-function GetUsers(start, count)
+function GetTypes()
 {
 	$.ajax(
 	{
 		url: '../php/manage_web.php',
 		type: 'POST',
 		dataType: 'JSON',
-		data: {action: 'getusers', start:start, count:count}
+		data: {action: 'gettypes'}
 	})
 	.done(function(json) 
 	{
@@ -22,8 +22,8 @@ function GetUsers(start, count)
 		$('#userlist-uNickName').empty();
 		$.each(json, function(idx, obj)
 		{
-			$('#userlist-uID').append('<li>'+obj['uID']+'</li>');
-			$('#userlist-uNickName').append('<li>'+obj['nickname']+'</li>');
+			$('#userlist-uID').append('<li>'+obj['tID']+'</li>');
+			$('#userlist-uNickName').append('<li>'+obj['title']+'</li>');
 		});
 	})
 	.fail(function() 
@@ -37,7 +37,6 @@ function ShowSubDiv(pos)
 	$('#div_add').hide();
 	$('#div_search').hide();
 	$('#div_del').hide();
-	console.log(pos);
 	switch(pos)
 	{
 		case 1:
@@ -131,7 +130,7 @@ function DelUser(userID)
 
 $(document).ready(function()
 {
-	GetUsers(0, 100);
+	GetTypes();
 	ShowSubDiv(0);
 	$('#allUser').click(function(event) 
 	{

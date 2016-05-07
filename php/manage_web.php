@@ -37,6 +37,24 @@
 					$count = $_POST['count'];
 					echo json_encode($wikimanager->getUsers($start, $count));
 					break;
+
+				case 'getnotes':
+					$start = $_POST['start'];
+					$count = $_POST['count'];
+					echo json_encode($wikimanager->getNotes($start, $count));
+					break;
+
+				case 'getusersbynickname':
+					$nickname = $_POST['nickname'];
+					echo json_encode($wikimanager->getUsersByNickname($nickname));
+					break;
+				case 'deleteuser':
+					$userid = $_POST['id'];
+					SendRespond(0, $wikimanager->delUser($userid));
+					break;
+				case 'gettypes':
+					echo json_encode($wikimanager->getSubTypes(array()));
+					break;
 				default:
 					# code...
 				break;

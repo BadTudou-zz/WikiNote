@@ -84,7 +84,6 @@
 
 				$sqlcmd = "ALTER TABLE type ADD CONSTRAINT fk_type_t".$i."ID FOREIGN KEY(t".$i."ID) REFERENCES t".$i."(tID) ON UPDATE CASCADE ON DELETE CASCADE";
 				$this->m_database->executeQuery($sqlcmd);	
-				echo $sqlcmd;
 
 				if ($i > 1)
 				{
@@ -114,7 +113,6 @@
 			$this->m_database->executeQuery($sqlcmd);	
 
 			//创建笔记表外键
-				echo $sqlcmd;
 			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_creatOrID FOREIGN KEY(creatorID) REFERENCES user(uID) ON UPDATE CASCADE";
 			$this->m_database->executeQuery($sqlcmd);	
 
@@ -140,10 +138,12 @@
 		 * @param string $password [密码]
 		 * @return [bool]           [description]
 		 */
-		public function delUser(string $nickname, string $pwd)
+		public function delUser(string $nickname)
 		{
-			$sqlcmd = 'DELETE FROM user WHERE  nickname = \''. $nickname .'\' AND pwd = \''. $pwd .'\'';
-			return $this->m_database->executeQuery($sqlcmd);
+			$this->m_database->selectDatabase('WikiNote');
+			$sqlcmd = "DELETE FROM user WHERE  nickname = '$nickname'" ;
+			$this->m_database->executeQuery($sqlcmd);
+			return $sqlcmd;
 		}
 
 		/**
@@ -176,6 +176,27 @@
 				array_push($fields, $field);
 			}
 			return $fields;
+		}
+
+		public function getUsersByNickname(string $nickname)
+		{
+			$this->m_database->selectDatabase('WikiNote');
+			$fields = array();
+			$sqlcmd = "SELECT uID, nickname FROM user WHERE nickname = '$nickname' ORDER BY uID";
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+			return $fields;	
+		}
+
+		public function deleteUserByID(int $id)
+		{
+			$this->m_database->selectDatabase('WikiNote');
+			$sqlcmd = "DELETE FROM user WHERE uID = $id";
+			$this->m_database->executeQuery($sqlcmd);
+			return true;
 		}
 		/**
 		 * [获取类型的ID，最上层]
@@ -236,19 +257,28 @@
 		 */
 		public function getSubTypes(array $aType)
 		{
+			$this->m_database->selectDatabase('WikiNote');
 			$fields = array();
 			$depth = count($aType);
-			if ($field = $this->getTypeID($aType))
+			if ($depth == 0)
 			{
-				$sqlcmd = 'SELECT t' .($depth+1). '.title FROM t' .($depth+1). "  WHERE t".($depth+1). ".tPID = " .$field;
-				$queryResult = $this->m_database->executeQuery($sqlcmd);
-				while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
-				{
-					array_push($fields, $field);
-				}
-				return $fields;
+				error_log('0000');
+				$sqlcmd = "SELECT tID , title FROM t1 ORDER BY tID";
 			}
-			return false;
+			else if ($field = $this->getTypeID($aType))
+			{
+				$sqlcmd = 'SELECT tID, t' .($depth+1). '.title FROM t' .($depth+1). "  WHERE t".($depth+1). ".tPID = " .$field. ' ORDER BY tID';
+			}
+			else
+			{
+				return false;
+			}
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
+			{
+				array_push($fields, $field);
+			}
+			return $fields;
 		}
 
 		/**
@@ -311,14 +341,14 @@
 		public function addNote(int $creatorID, int $typeID,  string $title)
 		{
 			$sqlcmd = "INSERT INTO note (notetypeID, title, creatorID, filepath) values ($typeID, '$title', $creatorID, '$title')";
-			echo $sqlcmd;
 			$this->m_database->executeQuery($sqlcmd);
 
 		}
 		public function getNotes(int $start, int $count)
 		{
+			$this->m_database->selectDatabase('WikiNote');
 			$fields = array();
-			$sqlcmd = "SELECT title FROM note ORDER BY nID LIMIT $start , $count";
+			$sqlcmd = "SELECT nID, title FROM note ORDER BY nID LIMIT $start , $count";
 			$queryResult = $this->m_database->executeQuery($sqlcmd);
 			while ($field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC))
 			{
@@ -328,56 +358,6 @@
 		}
 	}
 
-	//TEST
-	/*$my = new MANAGE('localhost', '3306', 'root', 'mysql');
-	$my->m_database->connect();
-	if ($my->m_database->getConnectState())
-	{
-	echo ' 连接成功';
-		if ($my->m_database->selectDatabase('WikiNote'))
-		{
-			print_r($my->getUsers(0, 10));
-		}
-		if ($my->m_database->createDatabase('WikiNote'));
-		{
-			echo '创建成功';
-			$my->initDatabase('WikiNote');
-			$my->addUser('user1', 'pwd1');
-			$my->addUser('user2', 'pwd2');
-			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
-			echo '2ok'.$my->addType(array(),'工业技术');
-			echo '2ok'.$my->addType(array(),'数理化');
-			echo '2ok'.$my->addType(array(),'人文');
-			echo '4ok'.$my->addType(array('工业技术'),'计算机');
-			echo '4ok'.$my->addType(array('工业技术'),'机械');
-			echo '4ok'.$my->addType(array('工业技术'),'航天');
-			echo '4ok'.$my->addType(array('工业技术', '计算机'),'编程技术');
-			echo $my->renameTypeTitle(array('工业技术','计算机','编程技术'), '新编程技术');
-			$my->getSubTypes(array('工业技术'));
-			$my->getSubTypes(array('工业技术', '计算机'));
-			$my->getSubTypes(array('测试2'));
-			$my->delSubTypes(array('测试'));
-			$my->delSubTypes(array('测试2'));
-			$sqlcmd = 'insert into type (t1ID, t2ID, t3ID, t4ID) values (1,1,1,1)';
-			$my->m_database->executeQuery($sqlcmd);
-			$my->addNote(1, 1, '我有一事，生死予之');
-			$my->addNote(1, 1, '我承认我不曾历经沧桑');
-			$my->addNote(1, 1, '时间旅行者的妻子');
-			$my->addNote(1, 1, '一个，很高兴认识你');
-			$my->addNote(1, 1, '你好，旧时光');
-			$my->addNote(1, 1, '城南旧事');
-			print_r($my->getNotes(0, 10));
-			print_r($my->getUsers(0, 10));
 	
-		}
-		if ($my->m_database->dropDatabase('dd'))
-		{
-			echo '删除成功';
-		}
-	}
-	else
-	{
-		echo '连接失败';
-	}*/
 		
 ?>

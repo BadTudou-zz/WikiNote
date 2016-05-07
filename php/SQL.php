@@ -18,6 +18,10 @@ class MYSQL
 
 	public function __construct(string $host, string $port,  string $user, string $pwd)
 	{
+		/*$this->m_host = '5721c54946174.gz.cdb.myqcloud.com';
+		$this->m_port = '11869';
+		$this->m_user = 'root';
+		$this->m_pwd  = 'RchD3PvU5TA2UtU4';*/
 		$this->m_host = $host;
 		$this->m_port = $port;
 		$this->m_user = $user;
@@ -38,6 +42,7 @@ class MYSQL
 	public function connect()
 	{
 		$this->m_resource = mysqli_connect($this->m_host.":".$this->m_port, $this->m_user, $this->m_pwd);
+		mysqli_query($this->m_resource, "set names 'UTF-8'");
 	}
 
 	/**
