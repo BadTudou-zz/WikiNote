@@ -53,7 +53,14 @@
 					SendRespond(0, $wikimanager->delUser($userid));
 					break;
 				case 'gettypes':
-					echo json_encode($wikimanager->getSubTypes(array()));
+					if ($_POST['type'] == '')
+					{
+						echo json_encode($wikimanager->getSubTypes(array()));
+					}
+					else
+					{
+						echo json_encode($wikimanager->getSubTypes(explode('/',$_POST['type'])));
+					}
 					break;
 				default:
 					# code...

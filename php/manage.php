@@ -257,17 +257,18 @@
 		 */
 		public function getSubTypes(array $aType)
 		{
+			error_log(implode('/', $aType));
 			$this->m_database->selectDatabase('WikiNote');
 			$fields = array();
 			$depth = count($aType);
+			error_log('count'.$depth);
 			if ($depth == 0)
 			{
-				error_log('0000');
-				$sqlcmd = "SELECT tID , title FROM t1 ORDER BY tID";
+				$sqlcmd = "SELECT title FROM t1 ORDER BY tID";
 			}
 			else if ($field = $this->getTypeID($aType))
 			{
-				$sqlcmd = 'SELECT tID, t' .($depth+1). '.title FROM t' .($depth+1). "  WHERE t".($depth+1). ".tPID = " .$field. ' ORDER BY tID';
+				$sqlcmd = 'SELECT t' .($depth+1). '.title FROM t' .($depth+1). "  WHERE t".($depth+1). ".tPID = " .$field. ' ORDER BY tID';
 			}
 			else
 			{

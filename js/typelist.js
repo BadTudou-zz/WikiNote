@@ -7,24 +7,49 @@
     Date    :   2016年5月06日11:55:05
     Note    :   WikiNote主界面
 */
-function GetTypes()
+
+/**
+ * [移除指定节点的所有子节点]
+ * @param {[type]} node [节点]
+ */
+function RemoveAllChilds(node)
 {
+	while (node.children.length != 0)
+     {
+     	for (var i=0; i < node.children.length; i++)
+     	{
+    		$('#typeTree').tree('removeNode', node.children[i]);
+		}
+     }
+}
+
+function GetTypes(arType, node)
+{
+	console.log(arType.join('/'));
 	$.ajax(
 	{
 		url: '../php/manage_web.php',
 		type: 'POST',
 		dataType: 'JSON',
-		data: {action: 'gettypes'}
+		data: {action: 'gettypes', type:arType.join('/')}
 	})
 	.done(function(json) 
 	{
+		$.each(json,function(index, el) {
+			console.log('title'+el['title']);
+		});
+		if (node != null)
+		{
+			SetSubTree(json, node);
+		}
+		else
+		{
+
+		InitTree(json);
+		}
+		return json;
 		$('#userlist-uID').empty();
 		$('#userlist-uNickName').empty();
-		$.each(json, function(idx, obj)
-		{
-			$('#userlist-uID').append('<li>'+obj['tID']+'</li>');
-			$('#userlist-uNickName').append('<li>'+obj['title']+'</li>');
-		});
 	})
 	.fail(function() 
 	{
@@ -50,87 +75,47 @@ function ShowSubDiv(pos)
 			break;
 	}
 }
-function GetUsersByNickname(nickname)
+function SetSubTree(json, node)
 {
-	$.ajax(
+	$.each(json, function(index, el) 
 	{
-		url: '../php/manage_web.php',
-		type: 'POST',
-		dataType: 'JSON',
-		data: {action: 'getusersbynickname', nickname:nickname}
-	})
-	.done(function(json) 
-	{
-		$('#userlist-uID').empty();
-		$('#userlist-uNickName').empty();
+		$('#typeTree').tree(
+    	'appendNode',
+    	{
+        	label: el['title'],
+	    },
+    	node
+		);	
+	});
+	
+
+}
+function InitTree(json)
+{
+	console.log('inittree');
+	var a = new Array();
 		$.each(json, function(idx, obj)
 		{
-			$('#userlist-uID').append('<li>'+obj['uID']+'</li>');
-			$('#userlist-uNickName').append('<li>'+obj['nickname']+'</li>');
+			a.push(obj['title']);
+		})
+		$('#typeTree').tree(
+		{
+    		data: a,
+    		autoOpen: true,
+    		dragAndDrop: true
 		});
-	})
-	.fail(function() 
+/*	$.each(json, function(index, el) 
 	{
-		console.log("error");
-	})	
+		console.log(el['title']);
+	});*/
+	
 }
 
-function AddUser(user, pwd) 
-{
-	console.log(user+' '+pwd);
-	$.ajax(
-	{
-		url: '../php/user_web.php',
-		type: 'POST',
-		dataType: 'JSON',
-		data: {action: 'register', user:user, pwd:pwd}
-	})
-	.done(function(json) 
-	{
-		$('#userForm-inputform-tip').text(json.msgText);
-		if (json.stateCode == 0)
-		{
-			window.location.reload();
-		}
-	})
-	.fail(function(json) 
-	{
-		alert('服务器发生错误'+json);
-	})
-	// body...
-}
-
-function DelUser(userID) 
-{
-	$.ajax(
-	{
-		url: '../php/manage_web.php',
-		type: 'POST',
-		dataType: 'JSON',
-		data: {action: 'deleteuser', id:userID}
-	})
-	.done(function(json) 
-	{
-		if (json.stateCode == 0)
-		{
-			console.log('删除成功');
-			GetUsers(0, 100);
-		}
-		else
-		{
-			alert('删除失败');
-		}
-	})
-	.fail(function(json) 
-	{
-		alert('服务器发生错误'+json);
-	})
-	// body...
-}
 
 $(document).ready(function()
 {
-	GetTypes();
+	console.log('type list');
+	GetTypes(Array());
 	ShowSubDiv(0);
 	$('#allUser').click(function(event) 
 	{
@@ -170,7 +155,29 @@ $(document).ready(function()
 			ShowSubDiv(0);
 		}
 	});
-	$('#addnew').click(function(event) 
+
+	$('#typeTree').bind
+	(
+    	'tree.click',
+    	function(event)
+    	{
+        	var node = event.node;
+        	var path = new Array();
+        	var tmp = node;
+
+        	while(tmp.name != '')
+        	{
+        		path.push(tmp.name);
+        		tmp = tmp.parent;
+        	}
+
+        	path.reverse();
+        	RemoveAllChilds(node);
+        	GetTypes(path, node);
+        	var dirname=path.join('');
+        	console.log(dirname);
+     });
+	/*$('#addnew').click(function(event) 
 	{
 		var user = $('#input_user').val();
 		var pwd = $('#input_pwd').val();
@@ -194,5 +201,5 @@ $(document).ready(function()
 		var nickname = $('#input_nickname').val();
 		console.log('nickname');
 		GetUsersByNickname(nickname);
-	});
+	});*/
 });

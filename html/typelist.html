@@ -3,8 +3,10 @@
 <head>
 	<title>类别列表</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="../css/userlist-style.css">
+	<link rel="stylesheet" type="text/css" href="../css/typelist-style.css">
+	<link rel="stylesheet" type="text/css" href="../css/jqtree/jqtree.css">
 	<script type="text/javascript" src="../js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="../js/jqtree/tree.jquery.js"></script>
 	<script type="text/javascript" src="../js/typelist.js"></script>
 </head>
 <body>
@@ -14,6 +16,7 @@
 		<a href="#" id="addUser">添加类别</a>
 		<a href="#" id="delUser">删除类别</a>
 	</div>
+	<div id="typeTree"></div>
 	<div id="div_add">
 		<form action="#">
 			<input name="user" id="input_user" placeholder="昵称"></input>
@@ -33,11 +36,6 @@
 			<input name="user" id="input_id" placeholder="昵称"></input>
 			<a href="#" id="delete">删除</a>
 		</form>
-	</div>
-	<div id='userlist'>
-		<ol id='userlist-uID'></ol>
-		<ol id='userlist-uNickName'></ol>
-		
 	</div>
 </body>
 </html>
