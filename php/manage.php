@@ -233,6 +233,7 @@
 		 */
 		public function addType(array $aType, string $title)
 		{
+			$this->m_database->selectDatabase('WikiNote');
 			$depth = count($aType);
 			if ($depth == 0)
 			{

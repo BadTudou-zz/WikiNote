@@ -62,6 +62,24 @@
 						echo json_encode($wikimanager->getSubTypes(explode('/',$_POST['type'])));
 					}
 					break;
+				case 'addtype':
+					if($_POST['type'] == '')
+					{
+						$state = $wikimanager->m_database->addType(array(), $_POST['add']);
+					}
+					else
+					{
+						error_log('add'.$_POST['add']);
+						$state = $wikimanager->addType(explode('/',$_POST['type']), $_POST['add']);	
+					}
+					if ($state)
+					{
+						SendRespond(0, '添加成功');
+					}
+					else
+					{
+						SendRespond(1, '添加失败');
+					}
 				default:
 					# code...
 				break;

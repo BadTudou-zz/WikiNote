@@ -23,6 +23,34 @@ function RemoveAllChilds(node)
      }
 }
 
+function AddType(arType, type, node)
+{
+	console.log('addttoe'+arType.join('/'));
+	$.ajax({
+		url: '../php/manage_web.php',
+		type: 'POST',
+		dataType: 'JSON',
+		data: {action: 'addtype', type:arType.join('/'), add:type}
+	})
+	.done(function(json) 
+	{
+		if (json.stateCode == 0)
+		{
+			console.log("success"+json.msgText);
+			RemoveAllChilds(node);
+			GetTypes(arType, node);	
+		}
+		else
+		{
+			console.log("nosuccess"+json.msgText);
+		}
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	
+	
+}
 function GetTypes(arType, node)
 {
 	console.log(arType.join('/'));
@@ -177,18 +205,29 @@ $(document).ready(function()
         	var dirname=path.join('');
         	console.log(dirname);
      });
-	/*$('#addnew').click(function(event) 
+	$('#addnew').click(function(event) 
 	{
-		var user = $('#input_user').val();
-		var pwd = $('#input_pwd').val();
+			var node = $('#typeTree').tree('getSelectedNode');;
+        	var path = new Array();
+        	var tmp = node;
+
+        	while(tmp.name != '')
+        	{
+        		path.push(tmp.name);
+        		tmp = tmp.parent;
+        	}
+
+        	path.reverse();
+		var type = $('#input_type').val();
 		console.log('addnew');
-		if (user == '' || pwd == '')
+		if (type == '')
 		{
 			return false;
 		}
-		AddUser(user, pwd);
+		AddType(path, type, node);
 	});
 
+	/*
 	$('#delete').click(function(event) 
 	{
 		var id = $('#input_id').val();
