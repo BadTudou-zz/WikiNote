@@ -53,6 +53,11 @@
 			return $this->m_database->getNotes($start, $count);
 		}
 
+		public function addnote(int $creatorID, int $typeID,  string $title)
+		{
+			$this->m_database = new MANAGE('localhost', '3306', 'root', 'mysql');
+			return $this->m_database->addNote($creatorID, 1, $title);
+		}
 			
 	}
 

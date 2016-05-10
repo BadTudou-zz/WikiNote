@@ -1,63 +1,69 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>WikiNote 创建笔记</title>
-<link rel="stylesheet" type="text/css" href="../css/createnote-style.css">
-
+	<meta charset="utf-8">
+	<title>WikiNote 创建笔记</title>
+	<link rel="stylesheet" type="text/css" href="../css/createnote-style.css">
+	<script type="text/javascript" src="../js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="../js/notelist.js"></script>
+	<script type="text/javascript" src="../js/createnote.js"></script>
 </head>
-
 <body>
-<div id="imgbox"><a href="index.html"><img src="../images/logo.png" width="148" height="134"></a></div>
-<div id="titlebox"> <a href="index.html">WikiNote.com</a></div>
+	<div id="imgbox">
+		<a href="index.html"><img src="../images/logo.png" width="148" height="134"></a>
+	</div>
+	<div id="titlebox">
+		<a href="index.html">WikiNote.com</a>
+	</div>
 
-<div id="formbox">
-<div class="backperson"><a href="personal.html"><img src="../images/back_personal.png" width="40" height="40"></a></div>
-<section>
-<form class="form1" method="post" action=".php" name="cnote">
-<ul class="ulColumn">
-<li>
-<span class="item_name" style="width:120px;">输入标题：</span>
-<input type="text" class="title_input" placeholder="请输入笔记标题..."/>
-</li>
-<li>
-<span class="item_name" style="width:120px;">选择分类：</span>
-<select name="stype1" class="select">
-<option  selected>经济类</option>
-<option value="1">文化类</option>
-<option value="2">科技类</option>
-<option value="3">教育类</option>
-<option value="4">工业类</option>
-<option value="5">历史类</option>
-<option value="6">综合类</option>
-</select>
-<select name="stype2" class="select">
-<option value="经济类" selected>文化类</option>
-</select>
-</li>
-<li>
- <span class="item_name" style="width:120px;">笔记简介：</span>
- <input type="text" class="title_input" placeholder="请为您的笔记加上一句简介..."/>
- </li>
-<li>
- <span class="item_name" style="width:120px;">主要内容：</span>
- <textarea placeholder="输入笔记" class="content_input" name="content"></textarea>
- </li>
-
-<li>
- <span class="item_name" style="width:120px;">上传封面：</span>
- <label class="uploadimg">
-         <input type="file"/><span>上传封面</span>
- </label>
- </li>
-<li>
-  <span class="item_name" style="width:120px;"></span>
-  <input type="submit" class="link_btn"/>
-</li>
-</ul>
-</form>
- </section>
-  
-</div>
+	<div id="formbox">
+		<div class="backperson">
+			<a href="personal.html"><img src="../images/back_personal.png" width="40" height="40"></a>
+		</div>
+		<section>
+		<form class="form1" id='note' method="post" action=".php" name="cnote">
+			<ul class="ulColumn">
+				<li>
+					<span class="item_name" style="width:120px;">
+						输入标题：
+					</span>
+					<input type="text" id='note_title'class="title_input" placeholder="请输入笔记标题..."/>
+				</li>
+				<li>
+					<span class="item_name" style="width:120px;">
+						选择分类：
+					</span>
+					<select id="stype1" name="stype1" class="select">
+					</select>
+					<select id="stype2" name="stype2" class="select">
+					</select>
+				</li>
+				<li>
+ 					<span class="item_name" style="width:120px;">
+ 						笔记简介：
+ 					</span>
+ 					<input type="text" class="title_input" placeholder="请为您的笔记加上一句简介..."/>
+ 				</li>
+				<li>
+ 					<span class="item_name" style="width:120px;">
+ 						主要内容：
+ 					</span>
+ 					<textarea placeholder="输入笔记" class="content_input" name="content"></textarea>
+ 				</li>
+				<li>
+ 					<span class="item_name" style="width:120px;">
+ 						上传封面：
+ 					</span>
+ 					<label class="uploadimg">
+         			<input type="file"/><span>上传封面</span></label>
+ 				</li>
+				<li>
+  					<span class="item_name" style="width:120px;"></span>
+  					<input type="submit" class="link_btn"/>
+				</li>
+			</ul>
+		</form>
+ 	</section>
+  </div>
 </body>
 </html>

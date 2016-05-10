@@ -7,6 +7,28 @@
     Date    :   2016年5月05日20:13:05
     Note    :   WikiNote主界面
 */
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function IsLogin()
+{
+	if (GetQueryString('login') == 'true')
+	{
+		$('#head-menu-rightbutton-login').hide();
+		$('#head-menu-rightbutton-user').show();
+		console.log('has login');
+	}
+	else
+	{
+		$('#head-menu-rightbutton-login').show();
+		$('#head-menu-rightbutton-user').hide();
+		console.log('has not login');	
+	}
+}
 
 function GetNotes(start, count)
 {
@@ -33,5 +55,6 @@ function GetNotes(start, count)
 
 $(document).ready(function()
 {
+	IsLogin();
 	GetNotes(0, 10);
 });

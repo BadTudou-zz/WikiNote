@@ -81,7 +81,7 @@ function SignIn(action, user, pwd)
 		$('#userForm-inputform-tip').text(json.msgText);
 		if (json.stateCode == 0)
 		{
-			location.href = '../html/index.html';
+			location.href = '../html/index.html?login=true';
 		}
 	})
 	.fail(function(json) 

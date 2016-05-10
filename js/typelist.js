@@ -37,8 +37,7 @@ function AddType(arType, type, node)
 		if (json.stateCode == 0)
 		{
 			console.log("success"+json.msgText);
-			RemoveAllChilds(node);
-			GetTypes(arType, node);	
+			RemoveAllChilds(node);			GetTypes(arType, node);	
 		}
 		else
 		{

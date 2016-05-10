@@ -24,13 +24,19 @@
 				case 'signin':
 					$user = $_POST['user'];
 					$pwd = $_POST['pwd'];
-					if ($wikiuser->login($user, $pwd) == false)
+					$uID = $wikiuser->login($user, $pwd);
+					if ($uID == false)
 					{
 						SendRespond(1, '用户名或密码错误');
 					}
 					else
 					{
+						session_start();
+						$_SESSION['uID']  = $uID;
+						$timeOut = time()+3600*24;
+						setcookie('uID', $uID);
 						SendRespond(0, '登录成功');
+						session_write_close();
 					}
 					break;
 
@@ -52,7 +58,15 @@
 					$start = $_POST['start'];
 					$count = $_POST['count'];
 					echo json_encode($wikiuser->getnotes($start, $count));
+					break;
 				
+				case 'addtype':
+					session_start();
+					$uID = $_SESSION['uID'];
+					$title = $_POST['title'];
+					$wikiuser->addnote($uID, 1, $title);
+					session_write_close();
+					SendRespond(0, '创建成功');
 				default:
 					# code...
 					break;
