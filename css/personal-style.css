@@ -1,0 +1,281 @@
+@charset "utf-8";
+/* CSS Document */
+
+body
+{  
+	font-size:16px;
+	margin: 0 auto;
+	
+}
+
+#bigbox
+{
+	position: absolute;
+	width: 1280px;
+	height: 2106px;
+	top: 7px;
+	left: 49px;
+	border: solid 2px #CFCDCD;
+
+}
+#logo
+{
+	position: absolute;
+	width: 90px;
+	height: 88px;
+	top: 10px;
+	left: 595px;
+}
+#logo a
+{
+	text-decoration : none;
+}
+
+#search_div
+{
+	position: absolute;
+	left: 905px;
+	top: 45px;
+	width: 378px;
+	height: 60px;
+}
+
+#search_tag
+{
+	position: absolute;
+	left: 312px;
+	top: 14px;
+	width: 44px;
+	height: 45px;
+}
+
+.input_search
+{ 
+     margin-top:20px;
+	 width:280px;
+	 height:30px;
+	 margin-left:20px;
+	 font-size:16px;
+
+}
+
+
+#hr
+{
+	position: absolute;
+	left: -1px;
+	top: 111px;
+	width: 1283px;
+	height: 3px;
+
+}
+
+#left_box
+{
+	position: absolute;
+	left: 5px;
+	top: 622px;
+	width: 1273px;
+	height: 1355px;
+}
+
+#right_box
+{
+	position: absolute;
+	left: 895px;
+	top: 14px;
+	width: 387px;
+	height: 344px;
+}
+h2.title_tj 
+{ 
+    font: 18px "微软雅黑", Arial, Helvetica, sans-serif; 
+	color: #444; 
+	font-weight: bold; 
+	background: url(../images/personal/h_line.jpg) repeat-x 20px center; 
+}
+
+h2.title_tj span 
+{ 
+   color: #ff8986;
+}
+h2.title_tj p 
+{ 
+    background: #fff; 
+    width: 90px;
+ }
+.bloglist h3 
+{ 
+     border-bottom: 1px solid #858585; 
+	 font-size:1em; 
+	 padding-bottom: 5px; 
+	 margin: 20px 0; 
+}
+.bloglist h3, .dateview 
+{ 
+    clear: both; 
+}
+.bloglist ul p 
+{ 
+    color: #666; 
+	font-size: 14px; 
+	line-height: 26px;
+}
+.bloglist figure 
+{ 
+    float: left; 
+	width: 233px; 
+	margin-right: 20px; 
+	margin-bottom: 10px; 
+}
+.bloglist figure img 
+{ 
+    padding: 4px; 
+	border: #f4f2f2 1px solid; 
+	width: 225px; 
+}
+
+.dateview 
+{ 
+    margin: 10px 0; 
+	clear: both; 
+	overflow: hidden; 
+	background: #f6f6f6 ;
+	line-height: 26px; 
+	height: 26px; 
+	color: #838383; 
+	padding-left: 20px; 
+	font-size: 12px ;
+}
+.dateview span 
+{ 
+     margin: 0 5px; 
+}
+.dateview span a 
+{ 
+    color: #099B43; 
+}
+ a.readmore 
+{ 
+    color: #028CC2; 
+	float: right; 
+	padding-right: 5px;
+}
+.news h3 
+{ 
+    font-size: 14px; 
+    background: url(../images/personal/r_title_bg.jpg) repeat-x center;
+}
+.news h3 p 
+{   
+     background: #fff; 
+     width: 70px;
+}
+.news h3 span 
+{ 
+     color:#65b020;
+}
+.news h3.ph span 
+{ 
+     color:#37ccca; 
+}
+.news h3.links span 
+{ 
+     color:#F17B6B; 
+}
+.news ul 
+{ 
+     margin-bottom: 20px;
+}
+.news ul li a:hover 
+{ 
+    text-decoration: underlin;
+}
+#personal_center
+{
+	position: absolute;
+	width: 858px;
+	height: 469px;
+	left: 1px;
+	top: 150px;
+}
+.portrait
+{
+	width:100px;
+	height:100px;
+	margin-left:120px;
+	margin-top:30px;
+}
+
+#signature
+{
+	position: absolute;
+	width: 506px;
+	height: 108px;
+	left: 255px;
+	top: 95px;
+}
+.introduce
+{
+	margin-top:30px;
+	font-family:'微软雅黑','黑体';
+	color:#930B46;
+		
+}
+
+#links
+{
+	position: absolute;
+	width: 342px;
+	height: 147px;
+	left: 120px;
+	top: 306px;
+}
+.rnav 
+{   
+    width: 250px; 
+	margin: 0px 0; 
+	overflow: hidden; 
+	background:#fff;
+	
+}
+.rnav li 
+{ 
+    width: 120px; 
+	text-align: center; 
+	display: inline-block; 
+	margin-bottom: 5px; 
+	margin-right: 5px; 
+	float: left; 
+	height: 40px; 
+	line-height: 38px ;
+}
+.rnav li a 
+{ 
+    color: #FFF; 
+	display: block; 
+	transition: all 1s ;
+	text-decoration:none;
+}
+.rnav ul li a:hover 
+{ 
+    background: rgba(255,255,255,0.2); 
+	transform: rotate(360deg); 
+}
+.rnav1 
+{ 
+    background: #1D89ED ;
+}
+
+.personal_data
+{
+	width:200px;
+	height:100px;
+}
+
+
+a{
+	text-decoration:none;
+	color:#FFFFFF;
+	
+}
