@@ -57,7 +57,8 @@
 				creatorID INTEGER UNSIGNED NOT 	NULL,
 				createTime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
 				modifyTime  TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP ON 	UPDATE CURRENT_TIMESTAMP,
-				filepath VARCHAR(128) NOT NULL
+				content MEDIUMTEXT 
+				/*filepath VARCHAR(128) NOT NULL*/
 			)';
 			$this->m_database->executeQuery($sqlcmd);
 
@@ -340,11 +341,19 @@
 			return '';
 		}
 
-		public function addNote(int $creatorID, int $typeID,  string $title)
+		public function addNote(int $creatorID, int $typeID,  string $title,string $content)
 		{
-			$sqlcmd = "INSERT INTO note (notetypeID, title, creatorID, filepath) values ($typeID, '$title', $creatorID, '$title')";
+			$sqlcmd = "INSERT INTO note (notetypeID, title, creatorID, content) values ($typeID, '$title', $creatorID, '$content')";
 			$this->m_database->executeQuery($sqlcmd);
 
+		}
+
+		public function getNote(string $title)
+		{
+			$sqlcmd = "SELECT title, content FROM note";
+			$queryResult = $this->m_database->executeQuery($sqlcmd);
+			$field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC);
+			return $field;
 		}
 		public function getNotes(int $start, int $count)
 		{

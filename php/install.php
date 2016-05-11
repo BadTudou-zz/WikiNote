@@ -39,13 +39,6 @@
 			$my->m_database->executeQuery($sqlcmd);
 			$sqlcmd = "insert into manager (nickname, pwd) values ('admin', 'admin')";
 			$my->m_database->executeQuery($sqlcmd);
-			$my->addNote(1, 1, '我有一事，生死予之');
-			$my->addNote(1, 1, '我承认我不曾历经沧桑');
-			$my->addNote(1, 1, '时间旅行者的妻子');
-			$my->addNote(1, 1, '一个，很高兴认识你');
-			$my->addNote(1, 1, '你好，旧时光');
-			$my->addNote(1, 1, '城南旧事');
-	
 		}
 		if ($my->m_database->dropDatabase('dd'))
 		{

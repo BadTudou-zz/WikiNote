@@ -22,13 +22,13 @@ function GetTypes(arType, node)
 	})
 };
 
-function AddNote(title)
+function AddNote(title, content)
 {
 	$.ajax({
 		url: '../php/user_web.php',
 		type: 'POST',
 		dataType: 'JSON',
-		data: {action: 'addtype', title:title}
+		data: {action: 'addnote', title:title, content:content}
 	})
 	.done(function(json) 
 	{
@@ -42,6 +42,8 @@ function AddNote(title)
 		console.log("error");
 	})
 }
+
+
 $(document).ready(function()
 {
 	console.log('create note');
@@ -55,7 +57,9 @@ $(document).ready(function()
 	$('#note').submit(function(event) {
 		/* Act on the event */
 		var title = $('#note_title').val();
-		AddNote(title);
+		var content = $('#note_content').val();
+		console.log('content'+content);
+		AddNote(title, content);
 		console.log('submit');
 		return false
 	});

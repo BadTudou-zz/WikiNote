@@ -43,7 +43,9 @@ function GetNotes(start, count)
 	{
 		$.each(json, function(idx, obj)
 		{
-			$('#notelist').append('<li>'+obj['title']+'</li>');
+			var en = encodeURI(obj['title']);
+			var link = encodeURI('../html/shownote.html?note='+en);
+			$('#notelist').append('<li><a href="'+link+'">'+obj['title']+'</a></li>');
 			console.log(idx+' '+obj['title']);
 		});
 	})

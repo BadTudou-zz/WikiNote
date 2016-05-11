@@ -131,7 +131,7 @@ span#head-menu-leftbutton>img
 	border-color: orange;
 }
 
-span#head-menu-rightbutton>a
+span#head-menu-rightbutton-login>a
 {
 	/*w:70 h:35*/
 	float: right;
@@ -146,6 +146,12 @@ span#head-menu-rightbutton>a
 	border-color: pink;
 }
 
+span#head-menu-rightbutton-user>a>img
+{
+	float: right;
+	width: 48px;
+	height: 48px;
+}
 div#context-AD
 {
 	/*w:970 h:50*/
@@ -225,7 +231,7 @@ div#context-AD-text
 	font-weight: bold;
 	text-align: vertical;
 }
-div#context-AD-button>a
+div#context-AD-button>a, div#context-notetype-newbuttom>a
 {
 	float: right;
 	display: block;

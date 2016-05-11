@@ -60,13 +60,20 @@
 					echo json_encode($wikiuser->getnotes($start, $count));
 					break;
 				
-				case 'addtype':
+				case 'addnote':
 					session_start();
 					$uID = $_SESSION['uID'];
 					$title = $_POST['title'];
-					$wikiuser->addnote($uID, 1, $title);
+					$content = $_POST['content'];
+					$wikiuser->addnote($uID, 1, $title, $content);
 					session_write_close();
 					SendRespond(0, '创建成功');
+					break;
+
+				case 'getnote':
+					$title = $_POST['title'];
+					$note = $wikiuser->getnote($title);
+					SendRespond(0, $note['content']);
 				default:
 					# code...
 					break;
