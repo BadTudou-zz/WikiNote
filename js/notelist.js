@@ -2,19 +2,23 @@
     Copyright © JiangTaoTao, 2016
     All rights reserved
 
-    Name    :   userlist.js
+    Name    :   notelist.js
     By      :   BadTudu
     Date    :   2016年5月06日11:55:05
-    Note    :   WikiNote主界面
+    Note    :   WikiNote笔记列表
 */
-function GetNotes(start, count)
+
+/**
+ * [重复代码，另一个副本在notelist.js中]
+ */
+function GetNoteList(start, count)
 {
 	$.ajax(
 	{
 		url: '../php/manage_web.php',
 		type: 'POST',
 		dataType: 'JSON',
-		data: {action: 'getnotes', start:start, count:count}
+		data: {action: 'getnotelist', start:start, count:count}
 	})
 	.done(function(json) 
 	{
@@ -32,5 +36,5 @@ function GetNotes(start, count)
 
 $(document).ready(function()
 {
-	GetNotes(0, 100);
+	GetNoteList(0, 100);
 });

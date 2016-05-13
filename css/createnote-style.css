@@ -2,41 +2,51 @@
 /* CSS Document */
 body
 {
+
 	
-	font-size:14px;
-	
 }
 
-#imgbox
+div#head
 {
-	position: absolute;
-	height: 118px;
-	width: 168px;
-	left: 556px;
-	top: 19px;
-	align-content: center;
+	/*w:976 h:280*/
+	width: 100%;
+	height: 200px;
+	margin-top: 20px;
+/* 	border: solid 1px; */
+	border-color: blue;
 }
-
-#titlebox
+div#head-logo
 {
-	position: absolute;
-	left: 546px;
-	top: 147px;
-	height: 24px;
-	width: 184px;
-	margin-top: 10px;
-	text-align: center;
-	color: #0086D1;
-	font: '黑体';
-	font-size: 20px;
+	/*w:130 h:110*/
+	width: 140px;
+	height: 110px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: -25px;
+	/* border: solid 1px; */
+	border-color: black;
 }
 
+div#head-logo>a
+{
+	font-weight: bold;
+	color: #4486F7;
+}
+div#head-logo>a>img
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	width: 75%;
+	height: 75%;
+}
 
 #formbox
 {
-	position: absolute;
 	left: 192px;
-	top: 281px;
+	margin-left: auto;
+	margin-right: auto;
 	height: 704px;
 	width: 923px;
 	border: #0086D1 solid 2px;

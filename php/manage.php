@@ -179,6 +179,11 @@
 			return $fields;
 		}
 
+		/**
+		 * [获取指定昵称的用户]
+		 * @param  string $nickname [昵称]
+		 * @return [array]          [用户ID与昵称]
+		 */
 		public function getUsersByNickname(string $nickname)
 		{
 			$this->m_database->selectDatabase('WikiNote');
@@ -192,6 +197,11 @@
 			return $fields;	
 		}
 
+		/**
+		 * [删除指定ID的用户]
+		 * @param  int    $id [用户ID]
+		 * @return [bool]     [状态：成功,true;失败,flase]
+		 */
 		public function deleteUserByID(int $id)
 		{
 			$this->m_database->selectDatabase('WikiNote');
@@ -199,6 +209,7 @@
 			$this->m_database->executeQuery($sqlcmd);
 			return true;
 		}
+
 		/**
 		 * [获取类型的ID，最上层]
 		 * @param  array  $aType [层次类型]
@@ -263,7 +274,6 @@
 			$this->m_database->selectDatabase('WikiNote');
 			$fields = array();
 			$depth = count($aType);
-			error_log('count'.$depth);
 			if ($depth == 0)
 			{
 				$sqlcmd = "SELECT title FROM t1 ORDER BY tID";
@@ -341,6 +351,13 @@
 			return '';
 		}
 
+		/**
+		 * [添加笔记]
+		 * @param int    $creatorID [创建者ID]
+		 * @param int    $typeID    [类型ID]
+		 * @param string $title     [笔记标题]
+		 * @param string $content   [笔记内容]
+		 */
 		public function addNote(int $creatorID, int $typeID,  string $title,string $content)
 		{
 			$sqlcmd = "INSERT INTO note (notetypeID, title, creatorID, content) values ($typeID, '$title', $creatorID, '$content')";
@@ -350,7 +367,8 @@
 
 		public function getNote(string $title)
 		{
-			$sqlcmd = "SELECT title, content FROM note";
+			$sqlcmd = "SELECT title, content FROM note WHERE title = '$title'";
+			error_log($sqlcmd);
 			$queryResult = $this->m_database->executeQuery($sqlcmd);
 			$field = mysqli_fetch_array($queryResult, MYSQLI_ASSOC);
 			return $field;

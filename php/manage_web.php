@@ -38,7 +38,7 @@
 					echo json_encode($wikimanager->getUsers($start, $count));
 					break;
 
-				case 'getnotes':
+				case 'getnotelist':
 					$start = $_POST['start'];
 					$count = $_POST['count'];
 					echo json_encode($wikimanager->getNotes($start, $count));

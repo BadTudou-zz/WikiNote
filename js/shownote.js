@@ -35,6 +35,6 @@ $(document).ready(function()
 	if (title != '')
 	{
 		$('#note_title').val(decodeURI(title));
-		GetNote(title);
+		GetNote(decodeURI(title));
 	}
 });

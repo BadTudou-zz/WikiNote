@@ -54,7 +54,7 @@
 					}
 					break;
 				
-				case 'getnotes':
+				case 'getnotelist':
 					$start = $_POST['start'];
 					$count = $_POST['count'];
 					echo json_encode($wikiuser->getnotes($start, $count));

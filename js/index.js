@@ -7,6 +7,11 @@
     Date    :   2016年5月05日20:13:05
     Note    :   WikiNote主界面
 */
+
+/**
+ * [获取查询的字符串]
+ * @param {[string]} name [参数名]
+ */
 function GetQueryString(name)
 {
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -14,30 +19,36 @@ function GetQueryString(name)
      if(r!=null)return  unescape(r[2]); return null;
 }
 
+/**
+ * [是否是登录]
+ */
 function IsLogin()
 {
 	if (GetQueryString('login') == 'true')
 	{
 		$('#head-menu-rightbutton-login').hide();
 		$('#head-menu-rightbutton-user').show();
-		console.log('has login');
 	}
 	else
 	{
 		$('#head-menu-rightbutton-login').show();
 		$('#head-menu-rightbutton-user').hide();
-		console.log('has not login');	
 	}
 }
 
-function GetNotes(start, count)
+/**
+ * [获取笔记列表]
+ * @param {[int]} start [起始编号]
+ * @param {[int]} count [笔记个数]
+ */
+function GetNoteList(start, count)
 {
 	$.ajax(
 	{
 		url: '../php/user_web.php',
 		type: 'POST',
 		dataType: 'JSON',
-		data: {action: 'getnotes', start:start, count:count}
+		data: {action: 'getnotelist', start:start, count:count}
 	})
 	.done(function(json) 
 	{
@@ -58,5 +69,5 @@ function GetNotes(start, count)
 $(document).ready(function()
 {
 	IsLogin();
-	GetNotes(0, 10);
+	GetNoteList(0, 10);
 });

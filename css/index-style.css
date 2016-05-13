@@ -270,7 +270,7 @@ div#footer-contact>ol>li
 	display: inline;
 	margin-left: 60px;
 }
-div#footer-contact>ol>li>img
+div#footer-contact>ol>li>a>img
 {
 	width: 72px;
 	height: 72px;
