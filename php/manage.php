@@ -19,18 +19,9 @@
 			$this->m_database->selectDatabase('WikiNote');
 		}
 
-		/**
-		 * [初始化数据库]
-		 * @param  string $dbname [数据库名称]
-		 */
-		public function initDatabase(string $dbname)
+		//创建用户表
+		protected function createUserTable()
 		{
-			if ($this->m_database->selectDatabase($dbname))
-			{
-				echo '切换成功';
-			}
-
-			//创建用户表
 			$sqlcmd = 'CREATE TABLE user 
 			(
 				uID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY, 
@@ -38,8 +29,11 @@
 				pwd CHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
+		}
 
-			//创建管理员表
+		//创建管理员表
+		public function createManagerTable()
+		{
 			$sqlcmd = 'CREATE TABLE manager 
 			(
 				mID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY, 
@@ -47,22 +41,12 @@
 				pwd CHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
-	
-			//创建笔记表
-			$sqlcmd = 'CREATE TABLE note
-			(
-				nID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
-				notetypeID INTEGER UNSIGNED NOT NULL,
-				title VARCHAR(128) NOT NULL,
-				creatorID INTEGER UNSIGNED NOT 	NULL,
-				createTime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
-				modifyTime  TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP ON 	UPDATE CURRENT_TIMESTAMP,
-				content MEDIUMTEXT 
-				/*filepath VARCHAR(128) NOT NULL*/
-			)';
-			$this->m_database->executeQuery($sqlcmd);
+		}
 
-			//参加笔记分类表
+		
+		//创建笔记分类表
+		protected function createNoteTypeTable()
+		{
 			$sqlcmd = 'CREATE TABLE type
 			(
 				tID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
@@ -90,11 +74,38 @@
 				{
 					$sqlcmd = "ALTER TABLE t$i ADD CONSTRAINT fk_deleteORupdate_tPID_$i FOREIGN KEY(tPID) REFERENCES t" .($i-1). '(tID) ON UPDATE CASCADE ON DELETE CASCADE';
 					$this->m_database->executeQuery($sqlcmd);	
-				}
-				
+				}	
 			}
+		}
+		
+		//创建笔记表
+		protected function createNoteTable()
+		{
+			
+			$sqlcmd = 'CREATE TABLE note
+			(
+				nID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
+				notetypeID INTEGER UNSIGNED NOT NULL,
+				title VARCHAR(128) NOT NULL,
+				creatorID INTEGER UNSIGNED NOT 	NULL,
+				createTime TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP,
+				modifyTime  TIMESTAMP NOT NULL 	DEFAULT CURRENT_TIMESTAMP ON 	UPDATE CURRENT_TIMESTAMP,
+				content MEDIUMTEXT 
+				/*filepath VARCHAR(128) NOT NULL*/
+			)';
+			$this->m_database->executeQuery($sqlcmd);
 
-			//创建日志表
+			//创建笔记表外键
+			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_creatorID FOREIGN KEY(creatorID) REFERENCES user(uID) ON UPDATE CASCADE";
+			$this->m_database->executeQuery($sqlcmd);	
+
+			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_notetypeID FOREIGN KEY(notetypeID) REFERENCES type(tID) ON UPDATE CASCADE ON DELETE CASCADE";
+			$this->m_database->executeQuery($sqlcmd);
+		}
+
+		//创建日志表
+		protected function createLogTable()
+		{
 			$sqlcmd = 'CREATE TABLE log
 			(
 				logID INTEGER UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -104,21 +115,34 @@
 				filepath VARCHAR(128) NOT NULL
 			)';
 			$this->m_database->executeQuery($sqlcmd);
+		}
 
-			//创建消息表
+		//创建消息表
+		protected function createMessageTable()
+		{
 			$sqlcmd = 'CREATE TABLE msg
 			(
 				msgID INTEGER UNSIGNED 	AUTO_INCREMENT NOT NULL 	PRIMARY KEY,
 				mtext VARCHAR(128) NOT NULL
 			)';
-			$this->m_database->executeQuery($sqlcmd);	
+			$this->m_database->executeQuery($sqlcmd);
+		}
 
-			//创建笔记表外键
-			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_creatOrID FOREIGN KEY(creatorID) REFERENCES user(uID) ON UPDATE CASCADE";
-			$this->m_database->executeQuery($sqlcmd);	
-
-			$sqlcmd = "ALTER TABLE note ADD CONSTRAINT fk_note_notetypeID FOREIGN KEY(notetypeID) REFERENCES type(tID) ON UPDATE CASCADE ON DELETE CASCADE";
-			$this->m_database->executeQuery($sqlcmd);	
+		/**
+		 * [初始化数据库]
+		 * @param  string $dbname [数据库名称]
+		 */
+		public function initDatabase(string $dbname)
+		{
+			if ($this->m_database->selectDatabase($dbname))
+			{
+				$this->createUserTable();
+				$this->createManagerTable();
+				$this->createNoteTypeTable();
+				$this->createNoteTable();
+				$this->createLogTable();
+				$this->createMessageTable();
+			}		
 
 		}
 
@@ -129,7 +153,7 @@
 		 */
 		public function addUser(string $nickname, string $pwd)
 		{
-			$sqlcmd = 'INSERT INTO user (nickname, pwd) values (\''. $nickname .'\', \''. $pwd .'\')';
+			$sqlcmd = "INSERT INTO user (nickname, pwd) values ('{$nickname} , '{$pwd}')";
 			return $this->m_database->executeQuery($sqlcmd);
 		}
 

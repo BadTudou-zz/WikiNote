@@ -14,12 +14,12 @@
 	$my->m_database->connect();
 	if ($my->m_database->getConnectState())
 	{
-	echo ' 连接成功';
+		echo ' 连接数据库服务器成功';
 		if ($my->m_database->createDatabase('WikiNote'));
 		{
-			echo '创建成功';
+			echo '创建数据库成功';
 			$my->initDatabase('WikiNote');
-			$my->addUser('user1', 'pwd1');
+/*			$my->addUser('user1', 'pwd1');
 			$my->addUser('user2', 'pwd2');
 			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
 			echo '2ok'.$my->addType(array(),'工业技术');
@@ -36,18 +36,14 @@
 			$my->delSubTypes(array('测试'));
 			$my->delSubTypes(array('测试2'));
 			$sqlcmd = 'insert into type (t1ID, t2ID, t3ID, t4ID) values (1,1,1,1)';
-			$my->m_database->executeQuery($sqlcmd);
+			$my->m_database->executeQuery($sqlcmd);*/
 			$sqlcmd = "insert into manager (nickname, pwd) values ('admin', 'admin')";
 			$my->m_database->executeQuery($sqlcmd);
-		}
-		if ($my->m_database->dropDatabase('dd'))
-		{
-			echo '删除成功';
 		}
 	}
 	else
 	{
-		echo '连接失败';
+		echo '连接数据库服务器失败';
 	}
 	?>
 </body>
