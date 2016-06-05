@@ -14,7 +14,7 @@ class MYSQL
 	protected $m_port;
 	protected $m_user;
 	protected $m_pwd;
-	protected $m_resource;
+	public $m_resource;
 
 	public function __construct(string $host, string $port,  string $user, string $pwd)
 	{
@@ -72,7 +72,7 @@ class MYSQL
 	public function createDatabase(string $dbname)
 	{
 		$sqlcmd = 'CREATE DATABASE IF NOT EXISTS '.$dbname;
-		return mysqli_query($this->m_resource, $sqlcmd);
+		return $this->executeQuery($sqlcmd);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class MYSQL
 	public function dropDatabase(string $dbname)
 	{
 		$sqlcmd = 'DROP DATABASE IF EXISTS '.$dbname;
-		return mysqli_query($this->m_resource, $sqlcmd);
+		return $this->executeQuery($sqlcmd);
 	}
 
 	/**
@@ -94,32 +94,7 @@ class MYSQL
 	public function executeQuery(string $sql)
 	{
 		return mysqli_query($this->m_resource, $sql);
+		//return mysqli_error($this->m_resource) == ''?true:false;
 	}
 	
 }
-
-/*//TEST
-$my = new MYSQL('localhost', '3306', 'root', '123qwe');
-$my->connect();
-if ($my->getConnectState())
-{
-	echo ' 连接成功';
-	if ($my->selectDatabase('mysql'))
-	{
-		echo ' 选择数据库成功';
-		if ($my->createDatabase('WikiNote'));
-		{
-			echo '创建成功';
-
-		}
-		if ($my->dropDatabase('dd'))
-		{
-			echo '删除成功';
-		}		
-	}
-}
-else
-{
-	echo '连接失败';
-}
-*/

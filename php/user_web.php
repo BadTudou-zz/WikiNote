@@ -10,10 +10,10 @@
 	Note	:	客户端请求：用户部分
 */
 	require_once('LIB.php');
-	require_once('user.php');
+	require_once('WIKINOTE_VISITOR.php');
 	if (isset($_POST['action']))
 	{
-		$wikiuser = new WIKINOTE_USER('localhost', '3306', 'root', 'mysql');
+		$wikiuser = new WIKINOTE_VISITOR('localhost', '3306', 'root', 'mysql');
 		$wikiuser->m_database->connect();
 		if ($wikiuser->m_database->getConnectState())
 		{
@@ -44,7 +44,7 @@
 				case 'register':
 					$user = $_POST['user'];
 					$pwd = $_POST['pwd'];
-					if ($wikiuser->register($user, $pwd))
+					if ($wikiuser->addUser($user, $pwd))
 					{
 						SendRespond(0, '注册成功');
 					}

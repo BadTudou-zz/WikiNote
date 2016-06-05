@@ -10,12 +10,12 @@
 	Note	:	客户端请求：管理员部分
 */
 	require_once('LIB.php');
-	require_once('manage.php');
+	require_once('WIKINOTE_MANAGER.php');
 	if (isset($_POST['action']))
 	{		
-		$wikimanager = new MANAGE('localhost', '3306', 'root', 'mysql');
-		$wikimanager->m_database->connect();
-		if ($wikimanager->m_database->getConnectState())
+		$wikimanager = new WIKINOTE_MANAGER('localhost', '3306', 'root', 'mysql');
+		$wikimanager->m_resource->connect();
+		if ($wikimanager->m_resource->getConnectState())
 		{
 			$action =  $_POST['action'];
 			switch ($action) 
@@ -23,7 +23,7 @@
 				case 'signin':
 					$user = $_POST['manage_user'];
 					$pwd = $_POST['manage_pwd'];
-					if ($wikimanager->login($user, $pwd) == false)
+					if ($wikimanager->loginManager($user, $pwd) == false)
 					{
 						SendRespond(1, '用户名或密码错误');
 					}
@@ -65,7 +65,7 @@
 				case 'addtype':
 					if($_POST['type'] == '')
 					{
-						$state = $wikimanager->m_database->addType(array(), $_POST['add']);
+						$state = $wikimanager->m_resource->addType(array(), $_POST['add']);
 					}
 					else
 					{

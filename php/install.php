@@ -3,47 +3,33 @@
 <head>
 	<title>WikiNote</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="../css/index-style.css">
-	<script type="text/javascript" src="../js/jquery-2.2.1.min.js"></script>
-	<script type="text/javascript" src="../js/index.js"></script>
 </head>
 <body>
 	<?php
-	require_once('manage.php');
-	$my = new MANAGE('localhost', '3306', 'root', 'mysql');
-	$my->m_database->connect();
-	if ($my->m_database->getConnectState())
+	require_once('WIKINOTE_MANAGER.php');
+	echo ' 连接数据库服务器......  ';
+	$my = new WIKINOTE_MANAGER('localhost', '3306', 'root', 'mysql');
+	$my->m_resource->connect();
+	if ($my->m_resource->getConnectState())
 	{
-		echo ' 连接数据库服务器成功';
-		if ($my->m_database->createDatabase('WikiNote'));
+		echo '成功<br/>';
+		echo ' 创建数据库......';
+		if ($my->m_resource->createDatabase('WikiNote'));
 		{
-			echo '创建数据库成功';
+			echo '成功<br/>';
+			echo ' 初始化数据库......';
 			$my->initDatabase('WikiNote');
-/*			$my->addUser('user1', 'pwd1');
-			$my->addUser('user2', 'pwd2');
-			$my->changeUserPWD('pwd2', 'user2', 'newpwd');
-			echo '2ok'.$my->addType(array(),'工业技术');
-			echo '2ok'.$my->addType(array(),'数理化');
-			echo '2ok'.$my->addType(array(),'人文');
-			echo '4ok'.$my->addType(array('工业技术'),'计算机');
-			echo '4ok'.$my->addType(array('工业技术'),'机械');
-			echo '4ok'.$my->addType(array('工业技术'),'航天');
-			echo '4ok'.$my->addType(array('工业技术', '计算机'),'编程技术');
-			echo '4ok'.$my->addType(array('工业技术', '计算机','编程技术'),'C语言');
-			$my->getSubTypes(array('工业技术'));
-			$my->getSubTypes(array('工业技术', '计算机'));
-			$my->getSubTypes(array('测试2'));
-			$my->delSubTypes(array('测试'));
-			$my->delSubTypes(array('测试2'));
+			/*
 			$sqlcmd = 'insert into type (t1ID, t2ID, t3ID, t4ID) values (1,1,1,1)';
-			$my->m_database->executeQuery($sqlcmd);*/
-			$sqlcmd = "insert into manager (nickname, pwd) values ('admin', 'admin')";
-			$my->m_database->executeQuery($sqlcmd);
+			$my->m_resource->executeQuery($sqlcmd);
+			*/
+			
+			echo '成功<br/>';
 		}
 	}
 	else
 	{
-		echo '连接数据库服务器失败';
+		echo '失败';
 	}
 	?>
 </body>
